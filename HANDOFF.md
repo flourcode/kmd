@@ -1,9 +1,19 @@
 # KillMyDeal.com — handoff
 
-Everything needed to maintain, extend or rebuild this. One HTML file, one page,
-no build step, no server, no dependencies.
+Everything needed to maintain, extend or rebuild this. One directory, two
+pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-18.1500**
+**Current build: 2026-09-18.1900**
+
+| Path | What |
+| --- | --- |
+| `/` | **Kill My Deal** — the seller's tool. *Is this deal real?* |
+| `/pipeline/` | **Kill My Pipeline** — the manager's tool. *Do I have enough real pipeline?* |
+| `kmd.css`, `inter.woff2` | shared design system and typeface |
+
+The third part of the family — can the team defend what they're carrying — is
+the consulting, not software. Do not brand it "Kill My Review"; two products
+and a person is a system, three "Kill My" things is a bit.
 
 ---
 
@@ -192,8 +202,10 @@ customer, agency, contract number, partner or dollar value.
 
 **If you add analytics, a save feature, a CRM integration or an AI call, the
 copy on the page stops being true.** Update it in the same commit or don't make
-the change. The claims live in three places: the line under the home-screen
-button, the FAQ entry "Does anything I enter leave my device?", and the footer.
+the change. The claim lives in two places per page and no more: one clause in
+the dek (*No deal data* / *Nothing stored*) and the FAQ entry "Does anything I
+enter leave my device?". It used to be in five, and repeating a privacy promise
+reads as protesting too much.
 
 ---
 
@@ -254,137 +266,63 @@ denied.
 
 ## 8. Style guide
 
-### The principle
+### The one thing
 
-**Bold where it judges, sober where it claims.**
+The tool must do one thing perfectly: tell a seller, in a minute, whether the
+deal is real. Every design decision is measured against that. If an element
+doesn't serve it, it is there because it could be, and it goes.
 
-The verdict, the questions and the share block can be as loud as you like. The
-privacy promise, the rigor FAQ, the credentials and the consulting CTA cannot —
-those have to survive a skeptic, and a toy cannot make a claim about data
-handling that anyone believes. It is also why this stops short of full
-neo-brutalism: the tool has to be usable in front of a manager.
+### Two colors
 
-### Foundation
+**Ink and blue.** Ink is near-black (`#1D1D1F`); greys are ink stepped down
+(`--ink-2`, `--ink-3`, `--line`, `--bg-2`, `--bg-3`). Blue is the old Twitter
+blue, `#1DA1F2`, and it means *go*: it is on exactly one element per screen —
+the primary button — plus links and the filled progress segments. The verdict
+card is ink for every tier except HEALTHY / COVERED, which is blue. That is
+the whole colour vocabulary. There is no green, amber, red or pink anywhere;
+answers are shown as words, and *No* is simply set in ink weight.
 
-Material 3 with the **M3 Expressive** additions (May 2025 — an expansion of M3,
-not a replacement): spring motion instead of duration+easing, shape morphing on
-press, emphasized typography, and grouping by containment.
+The blue is 2.8:1 against white, which fails WCAG AA. That was a deliberate
+call: the brand colour wins here. Don't "fix" it by darkening.
 
-**Inter (variable, latin subset), embedded as base64 inside the CSS** — not
-fetched from Google Fonts. Same typeface, no third-party request, and it renders
-on a network that blocks `fonts.googleapis.com`, which is the entire premise of
-this tool. It adds ~63 KB, which is the right trade.
+Dark mode is true black with the same blue and the same grey steps inverted.
+It is the same design, not a second one.
 
-**On privacy wording:** do not write "makes no network requests at all." That was
-used once and it is too absolute — the page still loads its own images, and Copy
-link deliberately puts the five answers in the URL. The defensible line, used on
-the page and in the FAQ: *your answers stay in your browser; no account,
-analytics, CRM connection or API call; nothing is sent anywhere unless you choose
-to share a result.*
+### Type and spacing
 
-To update it: `npm pack @fontsource-variable/inter`, take
-`files/inter-latin-wght-normal.woff2`, base64 it into the `@font-face` block.
-Icons are **inline SVG only** —
-the Material Symbols font was tried and removed, because when that request fails
-on a locked-down government network every icon renders as the literal word
-`check_circle`.
+Inter set the way Apple sets SF: tight negative tracking on headlines
+(−.025em at 36px), generous line height on body (17px / 1.47), and whitespace
+doing the work borders used to. Headline → dek → one button. Section headings
+at 28px. Overlines at 12px uppercase +.06em in `--ink-2` label every card.
 
-### Colour — seeded from the bird
+### Components
 
-The logo's body is `#9DD2FF`, hue 207°. The scheme is that hue at M3 tones.
+Buttons (pill, 44 / 54dp, grey by default, blue for primary, text for
+utilities, `scale(.97)` on press); choices (60dp grey pills, all identical);
+the segmented five-pill progress; cards (`--bg-2`, 20px radius); lists inside
+cards with hairline dividers; text fields (label above, grey fill, blue ring
+on focus); the app bar with one chip pointing at the other tool. Nothing else.
 
-| Token | Light | Dark | Use |
-| --- | --- | --- | --- |
-| `--primary` | `#9DD2FF` | `#9DD2FF` | filled buttons, the bird itself |
-| `--on-primary` | `#0C2448` | `#0C2448` | text on those fills (9.6:1) |
-| `--primary-ink` | `#045595` | `#9DD2FF` | primary **as text**: links, labels |
-| `--primary-container` | `#CDE8FE` | `#045595` | BE READY FOR card, tonal surfaces |
-| `--surface` | `#F7FAFF` | `#0E1216` | page |
-| `--on-surface` | `#181C20` | `#E1E3E7` | body text |
-| success / warn / error | `#146C2E` / `#7A5900` / `#B3261E` | lightened | YES / SORT OF / NO |
+### Motion
 
-**Why the split.** `#9DD2FF` is a tone-80 value: superb as a fill, unusable as
-text (1.5:1 on the surface). M3's tonal ramp exists exactly for this — the fill
-keeps the bird's colour, `--primary-ink` carries anything that has to be read.
-Never set text to `var(--primary)` on a light surface.
+Every screen change fades up 10px over 420ms (`--ease-out`). The verdict
+number and label pop in on a spring; the attack line and subtitle fade after.
+Buttons compress on press. That is all the motion there is, and it is enough.
 
-**Colour carries meaning.** Green, amber and red mean YES, SORT OF and NO; the
-four verdict blocks are tonal containers. Never add decorative colour that
-competes with them. Every pair passes WCAG AA in both schemes — re-measure if
-you change a value.
+### What was cut, and why
 
-### Emphasis
-
-The verdict block is the loud moment: a full-bleed tonal surface keyed to the
-tier, with the score at display size. The answers are a grouped, shape-morphing
-set. The questions carry weight. Everything else — the five signals, the SEO
-sections, the bio, the FAQ — stays quiet.
-
-**Shape scale.** Four container radii (`--shape-sm/md/lg/xl`: 12/16/24/28) plus
-the answer-group pair (`--corner-xl` 36 outer, `--corner-press` 14 inner/pressed)
-and full pills for buttons and chips. Nine ad-hoc radii were in use before this;
-pick from the tokens rather than adding a tenth.
-
-**Buttons.** One component, `.btn`, with three emphasis levels: `.btn-filled`
-(one per screen region — the action the screen exists for), `.btn-outlined`
-(alternatives), `.btn-text` (utilities: copy, back, another). Every one of them
-shape-morphs on press, pill → `--corner-press`; before this the primary
-button was the only one that didn't. Labels: filled and outlined are UPPERCASE,
-text buttons are sentence case. The Boss Mode close screen is the case to
-remember — when the DM block is present it is the filled button, and both
-navigation buttons are outlined.
-
-**Grouping by containment.** The answer set and the signals list use the same
-idiom: separate tonal items with a tight gap, larger outer corners on the
-first and last. Not divider lines inside one container.
-
-**Header.** The logo aligns with the prose bands (720px), the app column sits
-centered inside at 488px. The header carries one quiet text link, *Work with
-Mark*, so the consulting is reachable from any app state without the TOC.
-It is a text link, not a photo — see "No faces" above.
-
-*Exact borders, shadows and radii live in the CSS and change freely. Do not treat
-any pixel value in this document as a contract; the invariant is the hierarchy,
-not the implementation.*
+The home screen used to carry a five-question list, a doorway card and five
+navigation chips under the button. The list restated the tool, the doorway
+duplicated the header chip, and the chips navigated to headings a scroll
+finds anyway. The result screen merged "be ready for" and "do this" into one
+card, moved the arithmetic into the FAQ, and collapsed three text actions to
+*Share* and *Start over*. The three-ways cards became three paragraphs. If
+you add something back, ask which of the eight questions it answers.
 
 ### Voice
 
-Plain, specific, unsparing. *"You are selling to a building, not a person."*
-
-**One verb runs through the product: commit.** The hero is the instruction
-(*before you put it in commit, try to kill it*), the four verdict subtitles all
-answer it — commit it, do not commit it yet, nothing goes in commit until
-something is confirmed, take it out — and the managers section closes on the
-habit. Keep new copy inside that frame; it is what makes the tool a behaviour
-rather than a quiz.
-
-**No stat bar.** A row of numbers — $54M committed contract, $20M pipeline built
-from zero — was tried and cut. On a site whose entire premise is that an
-assertion is not proof, unverifiable dollar claims undercut the argument before
-they add anything, and the bio prose already carries the same credentials in a
-form that doesn't ask to be taken on faith.
-
-**Mark's section is a guide, not a résumé.** It opens on the question the whole
-tool is about ("Okay, but is this deal actually real?"), lists the roles as
-experience rather than credentials, ends on "This isn't a big consulting firm.
-It's just me," and the first offer is *Kill one with me* with the CTA **BRING ME
-A DEAL** — so the consulting reads as more of the product rather than the point
-where the site turns into a brochure.
-
-**The third offer is for teams.** The rep is the user; the manager is the buyer.
-Reps rarely hold budget for a consultant, so the paid tiers point at the person
-who does: *Run the review with me* is a manager buying a better pipeline review,
-not a rep buying coaching. Keep the ladder shaped that way.
-
-Never label the tone. The copy is already unsparing; writing "grumpy" into the
-page turns authority into a bit.
-
-**No faces.** An earlier mark was a round face with X eyes; a filled dark head
-with high-contrast eyes and mouth reads as a minstrel caricature. The bird
-replaced it. Mark's photo appears only in the bio section — a face in persistent
-chrome competes with the face in the content and reads as vanity.
-
----
+Plain, specific, unsparing. One verb: commit. Buttons in sentence case. Never
+label the tone. No stat bar. No faces in chrome.
 
 ## 9. Where to change things
 
@@ -400,7 +338,9 @@ chrome competes with the face in the content and reads as vanity.
 | Mark's block after a result | `mountMark()` |
 | SEO copy, FAQ, bio, offer | the `<section class="band">` blocks |
 | Structured data | the `application/ld+json` block in `<head>` |
-| Colour, type, spacing, springs | `:root` tokens at the top of `<style>` |
+| Colour, type, shape, motion | `:root` tokens at the top of `kmd.css` |
+| Kill My Pipeline model, tiers, copy | `compute()` in `pipeline/index.html` |
+| Kill My Pipeline share / DM | `shareBlock()`, `dmText()` there — the DM carries multiples, never dollars |
 
 ---
 
@@ -429,10 +369,11 @@ chrome competes with the face in the content and reads as vanity.
 - The dek names the audience: *Built for federal sellers.* Everything above the
   fold was otherwise generic sales-speak, and federal is the reason PATH exists.
 
-To regenerate `card.jpg`: run `python3 make-card.py` from a folder containing
-`bluebird.png` (it extracts Inter from `index.html` itself, so the card cannot
-drift from the page's typeface or palette). Change the copy in the script, not
-the JPEG. The card must carry the current hero and dek; it fell out of sync once.
+To regenerate the cards: `python3 make-card.py deal` and `python3 make-card.py
+pipeline` from the web root (they use `inter.woff2` and `bluebird.png`, so the
+cards cannot drift from the pages' typeface or palette). Change the copy in the
+script's `CARDS` table, not the JPEG. A card must carry its page's current hero
+and dek; it fell out of sync once.
 
 ---
 
@@ -469,18 +410,27 @@ the JPEG. The card must carry the current hero and dek; it fell out of sync once
 
 ## 12. Deploying
 
-Copy to the web root: `index.html`, `bluebird.png`, `favicon.png`,
-`apple-touch-icon.png`, `card.jpg`, `mark.jpg`, `robots.txt`, `sitemap.xml`.
-Any static host works. `make-card.py` stays in the repo, not the web root.
+Copy to the web root: `index.html`, `pipeline/index.html`, `kmd.css`,
+`inter.woff2`, `bluebird.png`, `bluebird-dark.png`, `favicon.png`, `apple-touch-icon.png`,
+`card.jpg`, `card-pipeline.jpg`, `mark.jpg`, `robots.txt`, `sitemap.xml`.
+Any static host works; `/pipeline/` must serve `pipeline/index.html` (every
+static host does this by default). `make-card.py` stays in the repo.
+
+**The font is now a file, not base64.** Two pages each embedding 64 KB of
+base64 made no sense; a file is fetched once and cached for both. It is still
+served from this directory — no Google Fonts, no third-party request. If you
+deploy `index.html` without `inter.woff2` the page falls back to the system
+font rather than breaking.
 
 **`mark.jpg` needs replacing.** The current headshot has visible processing
 artifacts — white blotches across the hair, beard and glasses from a bad
 background cut. On a site whose premise is credibility, a clean 640×640 photo
 on a plain background is worth the afternoon.
 
-The footer and `window.KMD_BUILD` carry a build stamp. Bump it on every change;
-it is how you confirm what is actually deployed, which has already saved a
-debugging session.
+`window.KMD_BUILD` carries a build stamp (type it in the console). Bump it on
+every change; it is how you confirm what is actually deployed, which has
+already saved a debugging session. It is no longer printed in the footer —
+nobody but the maintainer needs it.
 
 ---
 
@@ -517,7 +467,53 @@ debugging session.
 
 ---
 
-## 15. Changelog
+## 15. Kill My Pipeline
+
+The manager's half. Inputs: revenue target, qualified pipeline due in the
+period, qualified win rate; behind *Go deeper*: average deal size, sellers,
+closed so far, months in / months left. Sales-cycle days were cut — nine
+fields is not a one-minute tool.
+
+**The page opens on example numbers** ($10M / $11.4M / 30% / $500K / 8) with a
+verdict already showing and an EXAMPLE chip next to the title, so a first
+visitor sees what the tool does before typing anything. The chip disappears on
+the first keystroke or when a shared link fills the fields. The example was
+chosen to land on DEAD ON ARRIVAL: it shows the 3X gap and the win-rate gap
+disagreeing, which is the point.
+
+**Lead with the win rate, show 3X as the thing being killed.** Required pipeline
+is `still-to-find ÷ win rate` (× 3 if no win rate given). 3X is a 33% win rate
+in disguise; the page says so. The old consulting site had this backwards —
+3X was the benchmark and win rate was "go deeper" — and in this voice that
+makes the name a costume.
+
+Verdict is `pipeline ÷ required`, on the same ladder as Kill My Deal:
+COVERED ≥ 1.0 · HOPIUM ≥ .75 · ON LIFE SUPPORT ≥ .5 · DEAD ON ARRIVAL below.
+The tier that justifies the product is HOPIUM at ≥ 3X: *"3X says you're fine.
+Your win rate says you need 3.3X."* DEAD ON ARRIVAL at the start of a period
+is a creation problem, not a closing problem, and the copy says that; the
+"period is already written" line lives in the pace block, which only appears
+when closed-so-far and months are given.
+
+**The hand-off runs both ways.** Every pipeline verdict ends with *how much of
+the pipeline you already have would survive Kill My Deal?* and a KILL A DEAL
+button. The homepage's review section carries the doorway the other way
+(*Managing the whole pipeline?* → KILL MY PIPELINE). Neither tool's result
+screen links to the other above the DM; the DM stays the conversion path.
+
+**Dollars.** This tool necessarily asks for them, which Kill My Deal never does.
+So: the DM contains multiples only (*I'm at 1.1X; my win rate says I need
+3.3X*). *Copy for review* does contain dollars because the person chose to
+copy it. Copy link writes the inputs to the hash only when pressed, same rule
+as the other page.
+
+**Not brought over from the old consulting site:** the gtag/plausible hooks,
+the stat bar, the rep-archetype section (content topics, not homepage), the
+partner-strategy material, the generic GTM positioning. The federal specialty
+pitch is already the dek. The old site should be retired; this is the front
+door now.
+
+## 16. Changelog
 
 **2026-09-18.1400** — review pass.
 - `card.jpg` regenerated to match the current hero and dek (it still carried
@@ -544,3 +540,56 @@ debugging session.
 - Header aligned with the prose column; *Work with Mark* text link added.
 - Boss Mode close: navigation buttons outlined so the DM is the only filled one.
 - `h1` weight 400 → 700 to match the card, the question type and the verdicts.
+
+**2026-09-18.1700** — Kill My Pipeline.
+- `/pipeline/` added: coverage against target and win rate, same ladder, same
+  share/DM pattern, cross-linked both ways. `card-pipeline.jpg` and a
+  `pipeline` mode in `make-card.py`.
+- Shared `kmd.css` and `inter.woff2` extracted; `index.html` 118 KB → 37 KB.
+- Homepage: doorway block in the review section, footer link, `knowsAbout`
+  on the Person schema (the one useful thing in the old site's structured data).
+- `sitemap.xml` lists both pages.
+
+**2026-09-18.1900** — UX pass.
+- Header: single assist chip that swaps between the two tools; *Work with Mark*
+  header link removed. Doorway moved onto the home screen under the peek.
+- `/pipeline/` opens on example numbers with a live verdict and an EXAMPLE chip;
+  bio section added; KILL A DEAL is tonal under the filled DM.
+- Buttons no longer shape-morph or scale on press; state layer only.
+- Bio text wraps the photo instead of a second column.
+- `bluebird-dark.png`: light outline for dark mode, via `<picture>`.
+- Privacy copy cut to dek + FAQ per page; footer is one line; build stamp
+  removed from the footer (still in `window.KMD_BUILD`).
+
+**2026-09-18.2100** — Material Design 3 rebuild.
+- `kmd.css` rewritten from tokens up: full M3 color roles (light primary is now
+  tone 40 with white text; the bird blue is primary-container / dark primary),
+  the M3 shape scale, the M3 type scale, standard easings.
+- Every element is now an M3 component: app bar + assist chip, buttons in
+  four emphases and two sizes, list items, cards, filled text fields, linear
+  progress, expansion. The answer "bun" is gone: three size-M tonal buttons.
+- Button labels in sentence case throughout.
+- Dark-mode bird outline is pure white.
+- Pipeline page: bio photo path fixed, go-deeper labels shortened to fit the
+  two-column grid.
+- `preview/` folder in the package: headless-Chromium screenshots of every
+  screen in both schemes, taken from this build.
+
+**2026-09-19.0900** — palette.
+- Primary a step lighter (`#0B5A9A` → `#0F73BC`), toward Twitter blue, at the
+  lightest value that still passes AA with white text. Pastel Twitter blue in
+  `primary-container`.
+- Dark mode rebuilt as muted charcoal neutrals with pastel containers; all
+  pairs ≥ 7:1.
+- Neutrals quieter on both sides (lighter dividers, softer secondary text).
+- Cards regenerated in the new palette; `theme-color` updated.
+
+**2026-09-19.1200** — one thing.
+- Monochrome: ink plus Twitter blue. All semantic colours removed; verdict is
+  ink, HEALTHY / COVERED is blue.
+- Home screen reduced to headline, dek, button, the five words. Result screen
+  reduced to verdict, answers, one next-step card, Grill me, Share / Start over.
+- Segmented progress restored. Screen transitions, verdict spring, press
+  compression added.
+- Apple-style type scale and spacing. Three-ways cards → paragraphs. Score
+  arithmetic → FAQ. Field labels above inputs.
