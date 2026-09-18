@@ -3,7 +3,7 @@
 Everything needed to maintain, extend or rebuild this. One HTML file, one page,
 no build step, no server, no dependencies.
 
-**Current build: 2026-09-18.1400**
+**Current build: 2026-09-18.1500**
 
 ---
 
@@ -320,6 +320,29 @@ tier, with the score at display size. The answers are a grouped, shape-morphing
 set. The questions carry weight. Everything else — the five signals, the SEO
 sections, the bio, the FAQ — stays quiet.
 
+**Shape scale.** Four container radii (`--shape-sm/md/lg/xl`: 12/16/24/28) plus
+the answer-group pair (`--corner-xl` 36 outer, `--corner-press` 14 inner/pressed)
+and full pills for buttons and chips. Nine ad-hoc radii were in use before this;
+pick from the tokens rather than adding a tenth.
+
+**Buttons.** One component, `.btn`, with three emphasis levels: `.btn-filled`
+(one per screen region — the action the screen exists for), `.btn-outlined`
+(alternatives), `.btn-text` (utilities: copy, back, another). Every one of them
+shape-morphs on press, pill → `--corner-press`; before this the primary
+button was the only one that didn't. Labels: filled and outlined are UPPERCASE,
+text buttons are sentence case. The Boss Mode close screen is the case to
+remember — when the DM block is present it is the filled button, and both
+navigation buttons are outlined.
+
+**Grouping by containment.** The answer set and the signals list use the same
+idiom: separate tonal items with a tight gap, larger outer corners on the
+first and last. Not divider lines inside one container.
+
+**Header.** The logo aligns with the prose bands (720px), the app column sits
+centered inside at 488px. The header carries one quiet text link, *Work with
+Mark*, so the consulting is reachable from any app state without the TOC.
+It is a text link, not a photo — see "No faces" above.
+
 *Exact borders, shadows and radii live in the CSS and change freely. Do not treat
 any pixel value in this document as a contract; the invariant is the hierarchy,
 not the implementation.*
@@ -511,3 +534,13 @@ debugging session.
   dropped; favicon moved out of the head; `color-scheme` and dark
   `theme-color` declared; answer buttons are plain buttons in a `group` rather
   than radios that never get checked. Page 192 KB → 118 KB.
+
+**2026-09-18.1500** — cohesion pass.
+- One button component with three emphasis levels replaces `.big`, `.act`,
+  `.act-p`, `.cta-a`, `.cta-b`, `.linkbtn`, `.back`; shape morphing now applies
+  to every button including the primary. Label case made consistent.
+- Shape tokens replace nine ad-hoc radii; signals list uses the same grouped
+  idiom as the answer set.
+- Header aligned with the prose column; *Work with Mark* text link added.
+- Boss Mode close: navigation buttons outlined so the DM is the only filled one.
+- `h1` weight 400 → 700 to match the card, the question type and the verdicts.

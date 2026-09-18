@@ -105,6 +105,7 @@
     --spring-fast: cubic-bezier(.34, 1.56, .64, 1);
     --spring-soft: cubic-bezier(.22, 1.2, .36, 1);
     --corner-lg: 28px; --corner-press: 14px; --corner-xl: 36px;
+    --shape-sm: 12px; --shape-md: 16px; --shape-lg: 24px; --shape-xl: 28px;
     --state-hover: .08; --state-focus: .10; --state-press: .10;
   }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -113,24 +114,37 @@
     font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
 
   /* App-like unselectable elements */
-  .ans, .big, .logo, .act, .cta-a, .cta-b, .linkbtn { user-select:none; -webkit-user-select:none; }
+  .ans, .logo, .btn, .hdr-link { user-select:none; -webkit-user-select:none; }
 
   .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace; }
-  .wrap { max-width:520px; margin:0 auto; padding:14px 16px calc(28px + env(safe-area-inset-bottom)); }
+  .wrap { max-width:720px; margin:0 auto; padding:14px 16px calc(28px + env(safe-area-inset-bottom)); }
+  #screen { max-width:488px; margin:0 auto; }
   header { display:flex; align-items:center; justify-content:space-between; height:52px; }
+  .hdr-link { font:inherit; font-size:14px; font-weight:500; color:var(--primary-ink); text-decoration:none;
+    padding:8px 12px; border-radius:100px; white-space:nowrap; }
   
   .logo { display:inline-flex; align-items:center; gap:8px; font:inherit; font-size:17px; font-weight:500;
     color:var(--on-surface); background:none; border:0; padding:8px 8px 8px 0; margin-left:-2px;
-    white-space:nowrap; cursor:pointer; border-radius:10px; }
+    white-space:nowrap; cursor:pointer; border-radius:var(--shape-sm); }
   .logo:hover { color:var(--primary-ink); }
 
-  h1 { font-size:36px; font-weight:400; line-height:1.22; letter-spacing:-.5px; margin:20px 0 10px; }
+  h1 { font-size:36px; font-weight:700; line-height:1.18; letter-spacing:-.8px; margin:20px 0 10px; }
   .dek { font-size:16px; line-height:1.5; color:var(--on-surface-variant); margin:0 0 26px; }
   
-  .big { width:100%; background:var(--primary); color:var(--on-primary); border:0; border-radius:100px;
-    font:inherit; font-size:17px; font-weight:500; padding:19px; cursor:pointer; box-shadow:var(--elev1);
-    margin-bottom:12px; transition: transform .22s var(--spring-fast), box-shadow .22s ease; }
-  .big:active { transform:scale(.97); box-shadow:none; }
+  /* Buttons: one component, three emphasis levels. Shape morphs on press
+     (pill → --corner-press) on every one of them, per M3 Expressive. */
+  .btn { display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;
+    font:inherit; font-size:15px; font-weight:500; letter-spacing:.3px; text-align:center; text-decoration:none;
+    border:1px solid transparent; border-radius:100px; padding:15px 18px; cursor:pointer;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    transition: transform .22s var(--spring-fast), border-radius .22s var(--spring-fast), box-shadow .22s ease; }
+  .btn:active { transform:scale(.97); border-radius:var(--corner-press); box-shadow:none; }
+  .btn-filled { background:var(--primary); color:var(--on-primary); box-shadow:var(--elev1); font-weight:700; }
+  .btn-outlined { background:none; color:var(--primary-ink); border-color:var(--outline); }
+  .btn-text { background:none; color:var(--primary-ink); border:0; padding:12px 6px; font-weight:700; font-size:14.5px; }
+  .btn-text.inline { padding:0 2px; font-size:14px; font-weight:500; color:inherit; text-decoration:underline; }
+  .btn-lg { width:100%; font-size:17px; padding:19px; margin-bottom:12px; }
+  .btn-full { width:100%; }
   .private { font-size:13px; color:var(--on-surface-variant); text-align:center; margin-top:18px; }
   .fine { font-size:12.5px; color:var(--on-surface-variant); line-height:1.5; }
 
@@ -156,14 +170,13 @@
   
   .sr { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
     clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-  .back { font:inherit; font-size:14px; font-weight:500; color:var(--on-surface-variant);
-    background:none; border:0; padding:14px 4px; cursor:pointer; border-radius:100px; }
+  .back { font-weight:500; color:var(--on-surface-variant); }
 
   /* Result screen block */
   .headline-row { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-top:6px; }
   .score { font-size:76px; font-weight:900; line-height:1; letter-spacing:-3px; color:var(--primary-ink); }
   
-  .verdict-block { margin:4px 0 22px; padding:32px 24px; border-radius:28px; }
+  .verdict-block { margin:4px 0 22px; padding:32px 24px; border-radius:var(--shape-xl); }
   .vb-ready { background:var(--success-container); color:var(--on-success-container); }
   .vb-proof { background:var(--warn-container); color:var(--on-warn-container); }
   .vb-prove { background:var(--tertiary-container); color:var(--on-tertiary-container); }
@@ -177,35 +190,29 @@
   @keyframes xrise { from { opacity:0; transform:translateY(8px); } }
 
   /* Grouped Signals */
-  .signals { background:var(--sc-low); border-radius:var(--corner-xl); padding:6px 18px; margin:22px 0; }
-  .sig { display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--outline-variant); }
-  .sig:last-of-type { border-bottom:0; }
+  .signals { display:flex; flex-direction:column; gap:3px; margin:22px 0; }
+  .sig { display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:14px 20px;
+    background:var(--sc-low); border-radius:var(--corner-press); }
+  .sig:first-of-type { border-radius:var(--corner-xl) var(--corner-xl) var(--corner-press) var(--corner-press); }
+  .sig:last-of-type  { border-radius:var(--corner-press) var(--corner-press) var(--corner-xl) var(--corner-xl); }
   .sig-n { font-size:16px; font-weight:700; letter-spacing:.8px; }
   .sig-v { font-size:15px; font-weight:900; letter-spacing:.8px; }
   .sig-v.v-yes { color:var(--success); }
   .sig-v.v-sort { color:var(--warn); }
   .sig-v.v-no { color:var(--error); }
 
-  .ready-for { background:var(--primary-container); color:var(--on-primary-container); border-radius:24px; padding:20px; margin-bottom:18px; }
-  .do-first { background:var(--sc-low); border-radius:24px; padding:20px; margin-bottom:22px; }
+  .ready-for { background:var(--primary-container); color:var(--on-primary-container); border-radius:var(--shape-lg); padding:20px; margin-bottom:18px; }
+  .do-first { background:var(--sc-low); border-radius:var(--shape-lg); padding:20px; margin-bottom:22px; }
   
   .ready-k { font-size:11px; letter-spacing:.7px; text-transform:uppercase; opacity:.8; font-weight:700;}
   .ready-q { font-size:18px; font-weight:500; line-height:1.4; margin-top:8px; }
   .do-t { font-size:17px; line-height:1.45; font-weight:500; margin-top:8px; }
   
   .acts { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
-  .act { flex:1 1 140px; font:inherit; font-size:15px; font-weight:500; color:var(--primary-ink);
-    background:none; border:1px solid var(--outline); border-radius:100px; padding:15px; cursor:pointer;
-    transition: transform .22s var(--spring-fast); }
-  .act-p { background:var(--primary); color:var(--on-primary); border-color:transparent; box-shadow:var(--elev1); }
-  .act:active { transform:scale(.97); border-radius:var(--corner-press); }
-  
+  .acts .btn { flex:1 1 140px; }
   .acts-sub { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px; margin:14px 0 4px; }
-  .linkbtn { font:inherit; font-size:14.5px; font-weight:700; color:var(--primary-ink);
-    background:none; border:0; padding:12px 6px; cursor:pointer; border-radius:100px; }
-  .linkbtn.inline { padding:0 2px; font-size:14px; font-weight:500; color:inherit; text-decoration:underline; }
   .shared-note { background:var(--secondary-container); color:var(--on-secondary-container);
-    border-radius:12px; padding:12px 14px; font-size:14px; line-height:1.45; margin-bottom:18px; }
+    border-radius:var(--shape-sm); padding:12px 14px; font-size:14px; line-height:1.45; margin-bottom:18px; }
   .sep { color:var(--on-surface-variant); }
 
   details.why { margin-top:18px; }
@@ -223,7 +230,7 @@
   /* Mark block & DM */
   /* Single column: this block lost its avatar long ago, and the leftover grid
      was squeezing the DM preview into a 64px lane. */
-  .markblk { display:block; background:var(--sc-low); border-radius:24px;
+  .markblk { display:block; background:var(--sc-low); border-radius:var(--shape-lg);
     padding:22px; margin-top:32px; }
   .markblk .mark-name { font-size:19px; font-weight:700; margin-bottom:8px; }
   .markblk .mark-p { font-size:15px; line-height:1.55; margin:0 0 4px; }
@@ -233,34 +240,25 @@
 
   .dm-preview { display:block; width:100%; box-sizing:border-box;
     background:var(--surface); border:2px dashed var(--outline);
-    border-radius:14px; padding:14px 16px; font-size:13px; line-height:1.55;
+    border-radius:var(--shape-sm); padding:14px 16px; font-size:13px; line-height:1.55;
     color:var(--on-surface-variant); margin:16px 0 4px; white-space:normal;
     overflow-wrap:break-word; }
   .dm-inline { margin-top:22px; }
-  .dm-inline .cta-a { display:block; width:100%; box-sizing:border-box; text-align:center;
-    font:inherit; font-size:15px; font-weight:700; letter-spacing:.3px; cursor:pointer; }
-    
   .cta-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:20px; }
-  .cta-a, .cta-b { flex:1 1 160px; box-sizing:border-box; text-align:center; text-decoration:none;
-    font-size:15px; font-weight:500; letter-spacing:.3px; border-radius:100px; padding:16px 18px;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    transition: transform .22s var(--spring-fast), box-shadow .22s ease; }
-  .cta-a { background:var(--primary); color:var(--on-primary); border:none; box-shadow:var(--elev1); }
-  .cta-b { background:none; color:var(--primary-ink); border:1px solid var(--outline); }
-  .cta-a:active, .cta-b:active { transform:scale(.97); border-radius:var(--corner-press); }
+  .cta-row .btn { flex:1 1 160px; }
   
   .mark-fine { font-size:12px; line-height:1.5; color:var(--on-surface-variant); margin-top:10px; text-align:center; }
 
   /* State layers */
-  .ans, .big, .act, .cta-a, .cta-b, .linkbtn { position:relative; overflow:hidden; isolation:isolate; }
-  .ans::after, .big::after, .act::after, .cta-a::after, .cta-b::after, .linkbtn::after {
+  .ans, .btn, .hdr-link, .logo { position:relative; overflow:hidden; isolation:isolate; }
+  .ans::after, .btn::after, .hdr-link::after, .logo::after {
     content:''; position:absolute; inset:0; background:currentColor; opacity:0;
     transition:opacity .2s ease; pointer-events:none; z-index:-1; border-radius:inherit; }
-  .ans:hover::after, .big:hover::after, .act:hover::after, .cta-a:hover::after, .cta-b:hover::after, .linkbtn:hover::after { opacity:var(--state-hover); }
-  .ans:active::after, .big:active::after, .act:active::after, .cta-a:active::after, .cta-b:active::after, .linkbtn:active::after { opacity:var(--state-press); }
+  .ans:hover::after, .btn:hover::after, .hdr-link:hover::after, .logo:hover::after { opacity:var(--state-hover); }
+  .ans:active::after, .btn:active::after, .hdr-link:active::after { opacity:var(--state-press); }
 
   :focus-visible { outline:3px solid var(--primary-ink); outline-offset:2px; }
-  .ans:focus-visible, .big:focus-visible, .act:focus-visible, .cta-a:focus-visible, .cta-b:focus-visible { outline-offset:3px; }
+  .ans:focus-visible, .btn:focus-visible { outline-offset:3px; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
@@ -295,7 +293,7 @@
   .band li { font-size:16px; line-height:1.6; color:var(--on-surface-variant); margin-bottom:8px; }
   .lede { font-size:18px; line-height:1.55; color:var(--on-surface); }
   .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px; margin:22px 0; }
-  .card { background:var(--sc-low); border-radius:16px; padding:20px; }
+  .card { background:var(--sc-low); border-radius:var(--shape-md); padding:20px; }
   .card h3 { margin:0 0 6px; font-size:17px; }
   .card p { font-size:14.5px; margin:0; }
   .card .k { font-size:11px; letter-spacing:.7px; text-transform:uppercase; color:var(--primary-ink); font-weight:500; }
@@ -311,7 +309,7 @@
   .who img { width:120px; height:120px; border-radius:50%; object-fit:cover; }
   .toc { display:flex; flex-wrap:wrap; gap:8px; margin:20px 0 0; }
   .toc a { font-size:13.5px; color:var(--on-surface-variant); text-decoration:none;
-    border:1px solid var(--outline-variant); border-radius:8px; padding:7px 12px; }
+    border:1px solid var(--outline-variant); border-radius:100px; padding:7px 12px; }
   .toc a:hover { border-color:var(--primary-ink); color:var(--primary-ink); }
   .sitefoot { padding:36px 16px calc(40px + env(safe-area-inset-bottom)); text-align:center;
     font-size:12.5px; line-height:1.6; color:var(--on-surface-variant); }
@@ -320,7 +318,7 @@
 
   .brandmark { flex:0 0 38px; display:block; }
   
-  .peek { background:var(--sc-low); border-radius:16px; padding:16px 18px; margin:22px 0 4px; }
+  .peek { background:var(--sc-low); border-radius:var(--shape-md); padding:16px 18px; margin:22px 0 4px; }
   .peek-k { font-size:11px; letter-spacing:.7px; text-transform:uppercase; color:var(--on-surface-variant); margin-bottom:10px; }
   .peek-row { font-size:14.5px; line-height:1.5; padding:5px 0; color:var(--on-surface-variant); }
   .peek-row b { color:var(--on-surface); font-weight:500; letter-spacing:.4px; margin-right:6px; }
@@ -331,12 +329,13 @@
 <div class="wrap">
   <header>
     <button class="logo" id="logoHome" aria-label="Kill My Deal — start over"><img class="brandmark" src="bluebird.png" alt="" width="38" height="32"> Kill My Deal</button>
+    <a class="hdr-link" href="#mark">Work with Mark</a>
   </header>
   <div id="screen" aria-live="polite">
     <h1>Before you put it in commit, try to kill it.</h1>
     <p class="dek">Five questions to separate proof from hopium before your manager does.<br>
       Built for federal sellers. One minute. No CRM. No deal data.</p>
-    <button class="big" id="prep">KILL MY DEAL</button>
+    <button class="btn btn-filled btn-lg" id="prep">KILL MY DEAL</button>
     <div class="peek">
       <div class="peek-k mono">The five questions</div>
       <div class="peek-row"><b>CUSTOMER</b> Do they actually want this?</div>
@@ -472,8 +471,8 @@
           involved while the team works the answers. No giant consulting project required.</p></div>
     </div>
     <div class="cta-row">
-      <a class="cta-a" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&amp;utm_medium=page&amp;utm_content=consulting" target="_blank" rel="noopener">BRING ME A DEAL →</a>
-      <a class="cta-b" href="https://www.linkedin.com/in/markflournoy/" target="_blank" rel="noopener">DM ON LINKEDIN →</a>
+      <a class="btn btn-filled" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&amp;utm_medium=page&amp;utm_content=consulting" target="_blank" rel="noopener">BRING ME A DEAL →</a>
+      <a class="btn btn-outlined" href="https://www.linkedin.com/in/markflournoy/" target="_blank" rel="noopener">DM ON LINKEDIN →</a>
     </div>
     <div class="mark-fine">Free, 30 minutes, no pitch. I also build
       <a href="https://fedhoo.com" target="_blank" rel="noopener">fedhoo</a>,
@@ -531,7 +530,7 @@
     who also builds <a href="https://fedhoo.com" target="_blank" rel="noopener">fedhoo</a>.</p>
   <p>Scoring runs entirely in your browser. Nothing is stored or transmitted.
     Not affiliated with the U.S. government.</p>
-  <p class="build">build 2026-09-18.1400</p>
+  <p class="build">build 2026-09-18.1500</p>
 </footer>
 <script>
 'use strict';
@@ -718,7 +717,7 @@ function ask(i) {
       <button class="ans a-sort" data-v="sort" type="button">SORT OF</button>
       <button class="ans a-no" data-v="no" type="button">NO</button>
     </div>
-    ${i > 0 ? '<button class="back" id="back">← Back</button>' : ''}`;
+    ${i > 0 ? '<button class="btn btn-text back" id="back" type="button">← Back</button>' : ''}`;
   el().querySelectorAll('.ans').forEach(b => b.onclick = () => {
     answers[p.k] = b.dataset.v;
     if (i < P.length - 1) setTimeout(() => ask(i + 1), 120);
@@ -752,7 +751,7 @@ function result(shared) {
 
   el().innerHTML = `
     ${shared ? `<div class="shared-note">Someone sent you this verdict.
-      <button class="linkbtn inline" id="runMine">Run your own deal →</button></div>` : ''}
+      <button class="btn btn-text inline" id="runMine" type="button">Run your own deal →</button></div>` : ''}
     <div class="verdict-block vb-${s.cls}">
       <div class="vb-score">${s.total}</div>
       <div class="vb-label">${s.label}</div>
@@ -779,13 +778,13 @@ function result(shared) {
         : `<div class="do-t">${esc(s.moves[0] || 'Bring the proof you already have and defend the date.')}</div>`}
     </div>
 
-    <button class="big" id="grill">GRILL ME →</button>
+    <button class="btn btn-filled btn-lg" id="grill" type="button">GRILL ME →</button>
     <div class="acts-sub">
-      <button class="linkbtn" id="share">Copy link</button>
+      <button class="btn btn-text" id="share" type="button">Copy link</button>
       <span class="sep">·</span>
-      <button class="linkbtn" id="copy">Copy for review</button>
+      <button class="btn btn-text" id="copy" type="button">Copy for review</button>
       <span class="sep">·</span>
-      <button class="linkbtn" id="again">Another deal</button>
+      <button class="btn btn-text" id="again" type="button">Another deal</button>
     </div>
 
     <details class="why"><summary>Why ${s.total}?</summary>
@@ -855,11 +854,11 @@ function grillDone() {
       <div class="ready-q">${esc(FIX[w.k])}</div></div>
     ${grillOuch ? `<div class="dm-inline">
       <div class="dm-preview mono">${esc(dmGrillText(lastScore, grillOuch))}</div>
-      <button class="cta-a" id="dmGrill" type="button" style="width:100%;">COPY THIS &amp; DM MARK →</button>
+      <button class="btn btn-filled btn-full" id="dmGrill" type="button">COPY THIS &amp; DM MARK →</button>
       <div class="mark-fine">One line. No customer names.</div></div>` : ''}
     <div class="acts">
-      <button class="act act-p" id="back2">Back to the verdict</button>
-      <button class="act" id="another">KILL ANOTHER DEAL</button>
+      <button class="btn btn-outlined" id="back2" type="button">BACK TO THE VERDICT</button>
+      <button class="btn btn-outlined" id="another" type="button">KILL ANOTHER DEAL</button>
     </div>`;
   const dg = document.getElementById('dmGrill');
   if (dg) dg.onclick = () => copyDM(dg, dmGrillText(lastScore, grillOuch));
@@ -883,8 +882,8 @@ function mountMark() {
       answer yet.</p>
     <div class="dm-preview mono">${esc(dmText(s))}</div>
     <div class="cta-row">
-      <button class="cta-a" id="dmBtn" type="button">COPY THIS &amp; DM ME →</button>
-      <a class="cta-b" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=result&utm_content=after_score"
+      <button class="btn btn-filled" id="dmBtn" type="button">COPY THIS &amp; DM ME →</button>
+      <a class="btn btn-outlined" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=result&utm_content=after_score"
          target="_blank" rel="noopener">BRING ME A DEAL →</a>
     </div>
     <div class="mark-fine">Free either way. I answer LinkedIn faster than email.</div>`;
@@ -894,7 +893,7 @@ function mountMark() {
 }
 
 /* Boot */
-window.KMD_BUILD = '2026-09-18.1400';
+window.KMD_BUILD = '2026-09-18.1500';
 const INTRO_HTML = el().innerHTML;
 const fromHash = readHash();
 if (fromHash) { Object.assign(answers, fromHash); result(true); }
