@@ -3,7 +3,7 @@
 Everything needed to maintain, extend or rebuild this. One directory, two
 pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-20.0900**
+**Current build: 2026-09-20.1100**
 
 | Path | What |
 | --- | --- |
@@ -341,8 +341,19 @@ you add something back, ask which of the eight questions it answers.
 
 ### Voice
 
-Plain, specific, unsparing. One verb: commit. Buttons in sentence case. Never
-label the tone. No stat bar. No faces in chrome. **No em or en dashes anywhere
+Plain, specific, unsparing. One verb: commit. Never label the tone.
+
+**Case, one rule per kind of thing.** Buttons, chips and links are sentence
+case, because they are instructions (*Kill my deal*, *Grill me*, *Start
+over*). The two product names are proper nouns in title case wherever they are
+named rather than clicked (*Kill My Deal*, *Kill My Pipeline*, in the wordmark,
+the footer, prose and the pipeline overline). The five pillars are identifiers
+and are always capitals (*CUSTOMER*, in the answer list, the share block, the
+section headings and the five-word line under the hero); after the colon in a
+heading the question starts with a capital, as any sentence does. The four
+verdicts are capitals in the verdict card only, as display, and sentence case
+in prose and the FAQ. Overlines are sentence case in the source and uppercased
+by CSS. Nothing else on the site is in capitals. No stat bar. No faces in chrome. **No em or en dashes anywhere
 in site copy**, and go easy on the "not X, it is Y" construction. Both are
 machine tells. Use a colon, a comma, parentheses, or a new sentence.
 
@@ -644,3 +655,5 @@ door now.
 - All em and en dashes removed from site copy; two "not X, it is Y" lines
   tightened.
 - `amplify.yml`, `customHttp.yml`, `404.html` added; §12 rewritten for Amplify.
+
+**2026-09-20.1100** — case audit: pillar headings capitalise after the colon; FAQ referenced the old *GRILL ME* label; case rules written into §8.
