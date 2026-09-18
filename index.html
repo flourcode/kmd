@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Federal Sales Pipeline Review Tool | Kill My Deal</title>
-<meta name="description" content="Free pipeline-review tool for federal sellers and sales managers. Five questions — customer, money, power, path, now — scored in your browser. No login, no CRM, no customer data.">
+<meta name="description" content="Free pipeline-review tool for federal sellers and sales managers. Five questions (customer, money, power, path, now) scored in your browser. No login, no CRM, no customer data.">
 <link rel="canonical" href="https://killmydeal.com/">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://killmydeal.com/">
-<meta property="og:title" content="Kill My Deal — try to kill it before you put it in commit.">
+<meta property="og:title" content="Kill My Deal: Before you commit it, try to kill it.">
 <meta property="og:description" content="Five questions to find the holes before your manager does. One minute, no CRM, answers stay in your browser.">
 <meta property="og:site_name" content="Kill My Deal">
 <meta property="og:image" content="https://killmydeal.com/card.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Kill My Deal — Before you put it in commit, try to kill it. Five questions: customer, money, power, path, now.">
+<meta property="og:image:alt" content="Kill My Deal: Before you commit it, try to kill it. Five questions: customer, money, power, path, now.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Kill My Deal — try to kill it before you put it in commit.">
+<meta name="twitter:title" content="Kill My Deal: Before you commit it, try to kill it.">
 <meta name="twitter:description" content="Five questions to find the holes before your manager does.">
 <meta name="twitter:image" content="https://killmydeal.com/card.jpg">
-<meta name="twitter:image:alt" content="Kill My Deal — Before you put it in commit, try to kill it. Five questions: customer, money, power, path, now.">
+<meta name="twitter:image:alt" content="Kill My Deal: Before you commit it, try to kill it. Five questions: customer, money, power, path, now.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFBFC">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#15181C">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F9FCFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101418">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -46,7 +46,7 @@
       "@id": "https://killmydeal.com/#mark",
       "name": "Mark Flournoy",
       "jobTitle": "Federal sales advisor",
-      "description": "Six years leading Federal Partner Sales at AWS; prior roles at F5, Red Hat, STEC and Virident; 20 years a Marine officer.",
+      "description": "Six years leading Federal Partner Sales at AWS; prior roles at F5, Red Hat, STEC and Virident; 20 years a Marine.",
       "url": "https://killmydeal.com/#mark",
       "knowsAbout": ["Federal sales", "Pipeline qualification", "Pipeline coverage", "Sales management cadence", "Partner and channel sales", "Federal go-to-market"],
       "sameAs": ["https://fedhoo.com", "https://www.linkedin.com/in/markflournoy/"]
@@ -55,7 +55,7 @@
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "Does anything I enter leave my device?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The five answers are scored by JavaScript in your browser. No account, no analytics, no CRM connection, no API call. Nothing is sent anywhere unless you choose to share a result." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The five answers are scored by JavaScript in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result." } },
         { "@type": "Question", "name": "Why doesn't Kill My Deal ask for the customer or dollar value?",
           "acceptedAnswer": { "@type": "Answer", "text": "It does not need them, and asking would make the tool unusable for sellers whose employers restrict where pipeline detail can go. Qualification is about what you can prove, not who the customer is." } },
         { "@type": "Question", "name": "What does it mean to kill a deal?",
@@ -72,16 +72,17 @@
 }
 </script>
 <link rel="stylesheet" href="kmd.css">
+<script src="analytics.js" defer></script>
 </head>
 <body>
 
 <div class="wrap">
   <header class="appbar">
-    <button class="logo" id="logoHome" aria-label="Kill My Deal — start over"><picture><source srcset="bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="bluebird.png" alt="" width="38" height="32"></picture> Kill My Deal</button>
+    <button class="logo" id="logoHome" aria-label="Kill My Deal, start over"><picture><source srcset="bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="bluebird.png" alt="" width="38" height="32"></picture> Kill My Deal</button>
     <a class="chip" href="/pipeline/">Kill my pipeline →</a>
   </header>
   <div id="screen" aria-live="polite">
-    <h1>Before you put it in commit, try to kill it.</h1>
+    <h1>Before you commit it, try to kill it.</h1>
     <p class="dek">Five questions to separate proof from hopium before your manager does.
       One minute. Nothing stored.</p>
     <button class="btn btn-primary btn-lg btn-full" id="prep" type="button">Kill my deal</button>
@@ -93,29 +94,29 @@
     <h2 id="how-h">The five questions, and what each one disproves</h2>
     <p class="lede">Most federal pipeline dies for one of five reasons, and the seller usually knows which
       one before the meeting starts. The point of naming them is to stop pretending otherwise.</p>
-    <h3>CUSTOMER — has anyone said out loud that they want this?</h3>
+    <h3>CUSTOMER: has anyone said out loud that they want this?</h3>
     <p>A requirement you inferred from a good meeting is not a requirement. What you are looking for is the
       customer describing the problem in their own words, ideally in writing, and deciding something has to
       change. If the only person who has articulated the need is you, we may be inventing it. Is there pull,
       or are we pushing?</p>
-    <h3>MONEY — where does the funding come from?</h3>
+    <h3>MONEY: where does the funding come from?</h3>
     <p>Federal money has a name: an appropriation, a program line, an O&amp;M budget, a color of money with a
       fiscal year attached. <strong>"They have budget"</strong> with no source is the most common thing a
       seller believes and cannot defend. You can have a requirement, an enthusiastic customer and a contract
       vehicle, and still no money that can be applied to the buy. The question your manager will ask is who
       told you, and what is it called.</p>
-    <h3>POWER — have you met anyone who can make it happen?</h3>
+    <h3>POWER: have you met anyone who can make it happen?</h3>
     <p>Understanding the requirement and controlling the acquisition are different jobs, often different
       people, sometimes different buildings. Sellers mistake access for influence and enthusiasm for
       authority; a technical evaluator can love you and still not move a dollar. Progress means a program
-      manager, a contracting officer, or a budget holder — somebody who can cause something to happen when
+      manager, a contracting officer, or a budget holder, somebody who can cause something to happen when
       it gets difficult.</p>
-    <h3>PATH — how would they actually buy it?</h3>
+    <h3>PATH: how would they actually buy it?</h3>
     <p>Every federal purchase arrives through a mechanism: an existing contract, a GWAC or IDIQ, a task order,
       a set-aside, a recompete, a sole-source justification. If nobody has named the vehicle and the
       contracting office, the timeline is guesswork, because acquisition lead time is the timeline. Until
       somebody can describe how a purchase order eventually appears, you have demand rather than a deal.</p>
-    <h3>NOW — what forces action this year?</h3>
+    <h3>NOW: what forces action this year?</h3>
     <p>Agencies are very good at doing nothing for another year. A forcing function is specific: a contract
       expiring, a product going end of life, a mandate with a date, an incident, or money that expires
       September 30. "Q4" is not a compelling event, and neither is "my manager wants it this quarter."
@@ -137,7 +138,7 @@
     <p><strong>MEDDIC</strong> (or MEDDPICC, depending on who taught it to you) is more sophisticated, and
       that is exactly why it solves a different problem. It is for developing and managing a complex
       opportunity. A seller can spend forty-five minutes deciding whether somebody qualifies as an economic
-      buyer. These five are a cross-examination, not a worksheet — they run before that debate is worth
+      buyer. These five are a cross-examination, not a worksheet. They run before that debate is worth
       having.</p>
     <p class="lede" style="margin-top:22px;">MEDDIC helps you work the deal. Kill My Deal helps you decide
       whether you've earned the right to call it one.</p>
@@ -147,8 +148,7 @@
 <section class="band" id="review" aria-labelledby="review-h">
   <div class="band-inner">
     <h2 id="review-h">What actually happens in a pipeline review</h2>
-    <p>A pipeline review is not a status meeting. It is a manager testing whether the numbers on the board
-      can survive a question. Deals fail the same handful of ways, and a manager who has sat through a few
+    <p>A pipeline review is a manager testing whether the numbers on the board can survive a question. Deals fail the same handful of ways, and a manager who has sat through a few
       hundred reviews knows every one of them by sight. The difference between a seller who survives the
       review and one who does not is rarely deal quality. It is whether they walked in already knowing
       which question they were going to get hit with.</p>
@@ -177,10 +177,10 @@
         <p>I've spent a lot of years in rooms where somebody eventually asks, <strong>"Okay, but is this
           deal actually real?"</strong></p>
         <p>I led Partner Sales Teams at AWS for six years, sold at F5, Red Hat, STEC and Virident, and
-          before that spent 20 years as a Marine officer. I've been the seller defending the deal, the
+          before that spent 20 years as a Marine. I've been the seller defending the deal, the
           manager poking holes in it, the partner trying to help, and the guy explaining the forecast one
           level up.</p>
-        <p>Federal sales has a lot of side roads — funding, partners, contract vehicles, capture plans,
+        <p>Federal sales has a lot of side roads: funding, partners, contract vehicles, capture plans,
           and people who can say yes versus people who just sound like they can. I've been around enough
           of it that I can usually get oriented pretty quickly.</p>
         <p>I'm not here to tell you your deal is bad. I'm here to help you figure out what you
@@ -192,7 +192,7 @@
     <h3>Three ways to work together</h3>
     <p><strong>Kill one with me.</strong> 30 minutes, free. Bring me a deal and we'll try to kill it
       together. If it survives, you'll know why. If it doesn't, you'll know what to prove next.</p>
-    <p><strong>Work through one problem.</strong> 90 minutes, paid. One issue, properly — a deal, a territory,
+    <p><strong>Work through one problem.</strong> 90 minutes, paid. One issue, properly: a deal, a territory,
       a partner, a capture plan. You get a short write-up afterward so there's something to work from.</p>
     <p><strong>Run the review with me.</strong> Monthly or for a few weeks. I sit in your pipeline reviews,
       ask the five questions, and stay involved while the team works the answers.</p>
@@ -211,10 +211,10 @@
     <h2 id="faq-h">Questions</h2>
     <details class="exp"><summary>Does anything I enter leave my device?</summary>
       <div class="body">Your answers stay in your browser. The scoring is JavaScript running on this page:
-        no account, no database, no analytics on your answers, no CRM connection, no API call. The page
-        loads its own font and images and nothing else. The one exception is under your control — if you
-        press Copy link, your five answers are encoded into the URL so you can send the result to
-        somebody.</div></details>
+        no account, no database, no CRM connection, no API call. The site counts page views with Google
+        Analytics, and that is all it sends. It never sends your answers, and it never sends the part of
+        the link where a shared verdict lives. If you press Share, your five answers go into the link so
+        you can send the result to somebody, and that is the only time they leave the page.</div></details>
     <details class="exp"><summary>Why doesn't it ask for the customer or the dollar value?</summary>
       <div class="body">Because it doesn't need them, and asking would make the tool unusable for anyone whose
         employer restricts where pipeline detail can go. Qualification is about what you can prove, not who the
@@ -231,11 +231,11 @@
     <details class="exp"><summary>Is this rigorous enough to argue with?</summary>
       <div class="body">It is a qualification heuristic, not a forecast model. Nobody has calibrated these
         weights against thousands of closed deals, and this tool has never seen your pipeline. What it
-        does do is ask the same five questions every time, apply the same caps, and show its arithmetic —
+        does do is ask the same five questions every time, apply the same caps, and show its arithmetic,
         which is more consistency than most pipeline reviews manage. Use it to find the hole, not to set
         the number.</div></details>
     <details class="exp"><summary>How is the score calculated?</summary>
-      <div class="body">Each answer maps to a number — yes 92, sort of 50, no 8 — weighted money 26, power 22,
+      <div class="body">Each answer maps to a number (yes 92, sort of 50, no 8), weighted money 26, power 22,
         customer 20, path 16, now 16. Three caps apply when money, power or customer is a flat no, and no deal
         with any no can score above 74. Thresholds: healthy from 75, hopium from 55, on life support from 35,
         dead on arrival below.</div></details>
@@ -244,14 +244,14 @@
         apply, and thresholds produce the verdict. The weights are visible in the page source. A language model
         given five words would invent context, and confident wrong advice is worse than none.</div></details>
     <details class="exp"><summary>What do the four verdicts mean?</summary>
-      <div class="body"><strong>Healthy</strong> — it survived; bring the proof.
-        <strong>Hopium</strong> — you believe it, you haven't proved it.
-        <strong>On life support</strong> — something important is still an assumption.
-        <strong>Dead on arrival</strong> — this is a conversation, not a deal.</div></details>
+      <div class="body"><strong>Healthy:</strong> it survived; bring the proof.
+        <strong>Hopium:</strong> you believe it, you haven't proved it.
+        <strong>On life support:</strong> something important is still an assumption.
+        <strong>Dead on arrival:</strong> this is a conversation, not a deal.</div></details>
     <details class="exp"><summary>What does GRILL ME do?</summary>
       <div class="body">It plays the manager. Three hard questions drawn from your weakest answer, one at a
         time, and you say honestly whether you can answer each one. If you cannot answer two of three
-        about the money, that deal does not belong in commit yet — better to learn that here than in
+        about the money, that deal does not belong in commit yet. Better to learn that here than in
         the meeting.</div></details>
   </div>
 </section>
@@ -266,6 +266,7 @@
 'use strict';
 
 const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const kmd = (n) => { if (typeof window.kmd === 'function') window.kmd(n); else (window.kmdQ = window.kmdQ || []).push(n); };
 const el = () => document.getElementById('screen');
 // Every screen change fades up. Re-trigger the animation by toggling the class.
 const show = (html) => { const e = el(); e.classList.remove('enter'); e.innerHTML = html; void e.offsetWidth; e.classList.add('enter'); };
@@ -332,34 +333,56 @@ function shareLink() {
 /* ── The Ask ── */
 function dmText(s) {
   const w = s.weak.n;
-  return `Mark — just ran a deal through Kill My Deal. Scored ${s.total}, ${s.label.toLowerCase()}. `
+  return `Mark, just ran a deal through Kill My Deal. Scored ${s.total}, ${s.label.toLowerCase()}. `
        + `Weakest pillar is ${w.toLowerCase()}: ${GRILL[s.weak.k][0].toLowerCase()} `
        + `I don't have a good answer yet. Worth 20 minutes?`;
 }
 function dmGrillText(s, missed) {
   const w = s.weak.n;
-  return `Mark — ran a deal through Kill My Deal and could not answer ${missed} of your 3 ${w.toLowerCase()} questions. `
+  return `Mark, ran a deal through Kill My Deal and could not answer ${missed} of your 3 ${w.toLowerCase()} questions. `
        + `Scored ${s.total}. Want to tell me what you'd go do first?`;
 }
 // writeText returns a promise, so a synchronous try/catch misses permission
 // failures and the button lies about having copied. Every copy path goes
 // through this and reports what actually happened.
+// Copy runs synchronously inside the click, through a hidden textarea, so it
+// cannot lose the race with focus. The async clipboard API is the fallback,
+// not the other way round: navigator.clipboard.writeText rejects the moment
+// the document is not focused, which is exactly what opening LinkedIn does.
 function copyText(text) {
   try {
-    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
-  } catch (e) { return Promise.reject(e); }
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px;';
+    document.body.appendChild(ta);
+    if (/iP(hone|ad|od)/.test(navigator.userAgent)) {   // iOS Safari needs a real range
+      ta.contentEditable = 'true'; ta.readOnly = false;
+      const r = document.createRange(); r.selectNodeContents(ta);
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      ta.setSelectionRange(0, text.length);
+    } else { ta.select(); }
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) return Promise.resolve();
+  } catch (e) {}
+  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
   return Promise.reject(new Error('no clipboard'));
 }
-function flash(btn, ok, fail) {
-  return (okd) => { btn.textContent = okd === false ? fail : ok; };
-}
+// Button feedback is always short enough to fit the pill.
 function copyDM(btn, text) {
-  // window.open must run inside the click itself: a deferred open after an
-  // await or a timeout gets blocked by some browsers.
-  const win = window.open('https://www.linkedin.com/in/markflournoy/', '_blank', 'noopener');
+  kmd('dm_copy');
   copyText(text)
-    .then(() => { btn.textContent = win ? 'Copied — LinkedIn opened' : 'Copied — open LinkedIn to paste'; })
-    .catch(() => { btn.textContent = 'Press and hold the text above to copy'; });
+    .then(() => {
+      btn.textContent = 'Copied ✓';
+      window.open('https://www.linkedin.com/in/markflournoy/', '_blank', 'noopener');
+    })
+    .catch(() => { btn.textContent = "Couldn't copy"; selectPreview(btn); });
+}
+// Tapping the preview selects it, so a manual copy is one gesture.
+function selectPreview(near) {
+  const pv = (near && near.parentElement && near.parentElement.querySelector('.preview')) || document.querySelector('.preview');
+  if (!pv) return;
+  const r = document.createRange(); r.selectNodeContents(pv);
+  const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
 }
 
 const DIAL = { yes:'●', sort:'◐', no:'○' };
@@ -439,6 +462,7 @@ function home() {
 }
 
 function ask(i) {
+  if (i === 0 && !answers.customer) kmd('start');
   const p = P[i];
   show(`
     <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${P.length}" aria-valuenow="${i + 1}">${P.map((_, j) => `<i class="${j <= i ? 'done' : ''}"></i>`).join('')}</div>
@@ -475,6 +499,7 @@ function plainWhy(s) {
 function result(shared) {
   const s = score(answers);
   lastScore = s;
+  kmd(shared ? 'verdict_shared' : 'verdict');
 
   try { 
     if (s.total >= 75) navigator.vibrate(50);
@@ -512,7 +537,7 @@ function result(shared) {
       <button class="btn btn-text" id="again" type="button">Start over</button>
     </div>`);
 
-  document.getElementById('grill').onclick = () => { grillStep = 0; grillOuch = 0; grill(); };
+  document.getElementById('grill').onclick = () => { kmd('grill'); grillStep = 0; grillOuch = 0; grill(); };
   document.getElementById('again').onclick = () => { answers = {}; clearHash(); ask(0); };
   const rm = document.getElementById('runMine');
   if (rm) rm.onclick = () => { answers = {}; clearHash(); ask(0); };
@@ -521,9 +546,10 @@ function result(shared) {
     const btn = e.currentTarget;
     // Sharing is the one moment the verdict is allowed into the address bar.
     try { history.replaceState(null, '', '#' + encodeAnswers()); } catch {}
+    kmd('share');
     copyText(shareBlock(s))
       .then(() => { btn.textContent = 'Copied ✓'; })
-      .catch(() => { btn.textContent = 'Copy failed — use the address bar'; });
+      .catch(() => { btn.textContent = "Couldn't copy"; });
   };
   
   mountMark();
@@ -564,49 +590,43 @@ function grillDone() {
     <p class="dek">${esc(line)}</p>
     <div class="card"><span class="overline">Before the review</span>
       <p class="lede">${esc(FIX[w.k])}</p></div>
-    ${grillOuch ? `<div style="margin-top:20px;">
-      <div class="preview mono">${esc(dmGrillText(lastScore, grillOuch))}</div>
-      <button class="btn btn-primary btn-lg btn-full" id="dmGrill" type="button" style="margin-top:10px;">Copy this &amp; DM Mark</button>
-      <p class="fine" style="text-align:center;margin-top:10px;">One line. No customer names.</p></div>` : ''}
-    <div class="btn-row">
-      <button class="btn" id="back2" type="button">Back to the verdict</button>
-      <button class="btn" id="another" type="button">Another deal</button>
+    <div class="btn-row center" style="margin-top:8px;">
+      <button class="btn btn-text" id="back2" type="button">← Back to the verdict</button>
     </div>`);
-  const dg = document.getElementById('dmGrill');
-  if (dg) dg.onclick = () => copyDM(dg, dmGrillText(lastScore, grillOuch));
   document.getElementById('back2').onclick = () => result(false);
-  document.getElementById('another').onclick = () => { answers = {}; clearHash(); ask(0); };
-  mountMark();
+  mountMark(grillOuch ? dmGrillText(lastScore, grillOuch) : null);
   window.scrollTo({ top:0 });
 }
 
 /* ── Mark Block ── */
-function mountMark() {
+function mountMark(text) {
   if (document.getElementById('markBlock')) return;
   const w = document.createElement('div');
   w.id = 'markBlock';
   w.className = 'card';
   w.style.marginTop = '24px';
   const s = lastScore;
+  const dm = text || dmText(s);
   w.innerHTML = `
     <h3>Stuck on ${esc(s.weak.n.toLowerCase())}?</h3>
     <p>I'm Mark. I've been the seller defending this deal and the manager poking holes in it.
-      Send me one line about it — no customer names, nothing confidential, just the part you can't
+      Send me one line about it: no customer names, nothing confidential, just the part you can't
       answer yet.</p>
-    <div class="preview mono">${esc(dmText(s))}</div>
-    <div class="btn-row">
-      <button class="btn btn-primary" id="dmBtn" type="button">Copy this &amp; DM me</button>
-      <a class="btn" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=result&utm_content=after_score"
-         target="_blank" rel="noopener">Bring me a deal</a>
+    <div class="preview mono" title="Tap to select">${esc(dm)}</div>
+    <button class="btn btn-primary btn-lg btn-full" id="dmBtn" type="button" style="margin-top:14px;">Copy this &amp; DM me</button>
+    <div class="btn-row center" style="margin-top:4px;">
+      <a class="btn btn-text" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=result&utm_content=after_score"
+         target="_blank" rel="noopener">Or book 30 minutes</a>
     </div>
-    <p class="fine" style="text-align:center;margin:12px 0 0;">Free either way. I answer LinkedIn faster than email.</p>`;
+    <p class="fine" style="text-align:center;margin:4px 0 0;">Free either way. I answer LinkedIn faster than email.</p>`;
   el().appendChild(w);
-  const dm = document.getElementById('dmBtn');
-  if (dm) dm.onclick = () => copyDM(dm, dmText(lastScore));
+  const btn = document.getElementById('dmBtn');
+  if (btn) btn.onclick = () => copyDM(btn, dm);
+  w.querySelector('.preview').onclick = (e) => selectPreview(e.currentTarget.nextElementSibling);
 }
 
 /* Boot */
-window.KMD_BUILD = '2026-09-19.1200'; // console check for what's deployed
+window.KMD_BUILD = '2026-09-20.0900'; // console check for what's deployed
 const INTRO_HTML = el().innerHTML;
 const fromHash = readHash();
 if (fromHash) { Object.assign(answers, fromHash); result(true); }

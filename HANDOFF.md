@@ -3,7 +3,7 @@
 Everything needed to maintain, extend or rebuild this. One directory, two
 pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-18.1900**
+**Current build: 2026-09-20.0900**
 
 | Path | What |
 | --- | --- |
@@ -26,7 +26,7 @@ the review. About a minute on a phone.
 It is not a CRM, a forecast model, or a system of record. It is a **rehearsal**:
 the sixty seconds before somebody senior says *"okay, tell me about this deal."*
 
-**Hero:** *Before you put it in commit, try to kill it.*
+**Hero:** *Before you commit it, try to kill it.*
 **Promise:** *Five questions to separate proof from hopium before your manager does.*
 **Philosophy (not on the page):** *Hope is not evidence.*
 
@@ -207,6 +207,17 @@ the dek (*No deal data* / *Nothing stored*) and the FAQ entry "Does anything I
 enter leave my device?". It used to be in five, and repeating a privacy promise
 reads as protesting too much.
 
+**Analytics, and what the promise now says.** `analytics.js` loads Google
+Analytics 4 when `GA_ID` is set. That changed the FAQ wording from "no
+analytics" to "counts page views and never sends your answers", which is
+exactly true and must stay true. Two guarantees are built in: `page_location`
+is sent without the URL fragment, so a shared verdict (`#ysnys`) or the
+pipeline numbers never reach Google; and the events the pages fire (`start`,
+`verdict`, `verdict_shared`, `grill`, `share`, `dm_copy`, `pipeline_edit`,
+`pipeline_share`, `pipeline_dm_copy`) carry no parameters. Never add an event
+parameter that contains an answer, a score, a number or DM text. Events
+fired before the deferred script loads are queued and flushed.
+
 ---
 
 ## 7. The ask, and how it spreads
@@ -272,21 +283,30 @@ The tool must do one thing perfectly: tell a seller, in a minute, whether the
 deal is real. Every design decision is measured against that. If an element
 doesn't serve it, it is there because it could be, and it goes.
 
-### Two colors
+### Two colors, seeded from the bird
 
-**Ink and blue.** Ink is near-black (`#1D1D1F`); greys are ink stepped down
-(`--ink-2`, `--ink-3`, `--line`, `--bg-2`, `--bg-3`). Blue is the old Twitter
-blue, `#1DA1F2`, and it means *go*: it is on exactly one element per screen —
-the primary button — plus links and the filled progress segments. The verdict
-card is ink for every tier except HEALTHY / COVERED, which is blue. That is
-the whole colour vocabulary. There is no green, amber, red or pink anywhere;
-answers are shown as words, and *No* is simply set in ink weight.
+**Ink and blue.** Every neutral — surfaces, inks, hairlines — is the bird's
+hue (207) at very low chroma, so the page and the mark belong to each other:
+`#F9FCFF` surface, `#EDF2F7` cards, `#131619` ink. Blue is the old Twitter
+blue, `#1DA1F2`, and it means *go*: it is on exactly one element per screen
+(the primary button) plus links and the filled progress segments. The verdict
+card is ink for every tier except HEALTHY / COVERED, which is blue. There is
+no green, amber, red or pink anywhere; answers are words, and *No* is set in
+ink weight. The highlight container (`--accent-soft`, `#C2E3FF`) is used for
+the hand-off card on `/pipeline/` and for a hovered choice.
 
-The blue is 2.8:1 against white, which fails WCAG AA. That was a deliberate
-call: the brand colour wins here. Don't "fix" it by darkening.
+**In the dark, the button is the bird.** Dark-mode primary is `#9DD2FF` with
+`#00182B` text, so the logo and the action share a colour. Surfaces are the
+same hue near black (`#101418`). It is the same design inverted, not a
+second one.
 
-Dark mode is true black with the same blue and the same grey steps inverted.
-It is the same design, not a second one.
+The light blue is 2.8:1 against white, which fails WCAG AA. That was a
+deliberate call: the brand colour wins here. Don't "fix" it by darkening.
+
+**Components never contain a literal hex.** They consume `--bg`, `--ink`,
+`--accent` and the rest. If you find yourself typing a `#` inside a component
+rule, you are adding a colour to the system; add a token and name what it
+means.
 
 ### Type and spacing
 
@@ -322,7 +342,9 @@ you add something back, ask which of the eight questions it answers.
 ### Voice
 
 Plain, specific, unsparing. One verb: commit. Buttons in sentence case. Never
-label the tone. No stat bar. No faces in chrome.
+label the tone. No stat bar. No faces in chrome. **No em or en dashes anywhere
+in site copy**, and go easy on the "not X, it is Y" construction. Both are
+machine tells. Use a colon, a comma, parentheses, or a new sentence.
 
 ## 9. Where to change things
 
@@ -338,6 +360,7 @@ label the tone. No stat bar. No faces in chrome.
 | Mark's block after a result | `mountMark()` |
 | SEO copy, FAQ, bio, offer | the `<section class="band">` blocks |
 | Structured data | the `application/ld+json` block in `<head>` |
+| Google Analytics ID, events | `analytics.js` |
 | Colour, type, shape, motion | `:root` tokens at the top of `kmd.css` |
 | Kill My Pipeline model, tiers, copy | `compute()` in `pipeline/index.html` |
 | Kill My Pipeline share / DM | `shareBlock()`, `dmText()` there — the DM carries multiples, never dollars |
@@ -395,6 +418,11 @@ and dek; it fell out of sync once.
 - **Share text duplicating the URL.** `shareBlock()` already ends with the link.
 - **Regex that eats the rest of a tag.** A `<link rel="icon">` replacement
   stopped at the first `>` inside a data URI and left `😵">` visible on the page.
+- **Opening a tab before copying.** `window.open` moves focus; Chrome then
+  rejects `navigator.clipboard.writeText` with "document is not focused", so
+  the DM copied nothing and the catch stuffed a sentence into a 44px pill.
+  Copy now runs synchronously inside the click through a hidden textarea and
+  LinkedIn opens after it succeeds. Button feedback is two words, always.
 - **Passing a handler the event.** `back2.onclick = result` handed the click
   event to `result(shared)`, so *Back to the verdict* showed "Someone sent you
   this verdict" on the user's own deal. Wrap it: `() => result(false)`.
@@ -408,31 +436,29 @@ and dek; it fell out of sync once.
 
 ---
 
-## 12. Deploying
+## 12. Deploy (AWS Amplify Hosting, from GitHub)
 
-Copy to the web root: `index.html`, `pipeline/index.html`, `kmd.css`,
-`inter.woff2`, `bluebird.png`, `bluebird-dark.png`, `favicon.png`, `apple-touch-icon.png`,
-`card.jpg`, `card-pipeline.jpg`, `mark.jpg`, `robots.txt`, `sitemap.xml`.
-Any static host works; `/pipeline/` must serve `pipeline/index.html` (every
-static host does this by default). `make-card.py` stays in the repo.
+The repo is the site. `amplify.yml` has no build step; its build phase only
+deletes files that belong in the repo but not on the web (`preview/`,
+`HANDOFF.md`, `make-card.py`). `customHttp.yml` sets security headers and
+caching: HTML is `no-cache`, CSS and JS one hour, the font a year, images a
+week. There is no asset versioning, so a CSS change is live within an hour.
 
-**The font is now a file, not base64.** Two pages each embedding 64 KB of
-base64 made no sense; a file is fetched once and cached for both. It is still
-served from this directory — no Google Fonts, no third-party request. If you
-deploy `index.html` without `inter.woff2` the page falls back to the system
-font rather than breaking.
+Set these in the Amplify console; they cannot live in the repo:
+1. **Rewrites and redirects**: `/pipeline` → `/pipeline/` (301);
+   `https://www.killmydeal.com/<*>` → `https://killmydeal.com/<*>` (301); and
+   a 404 rule: source `/<*>`, target `/404.html`, type `404`.
+2. **Domain**: apex `killmydeal.com` as the primary, `www` redirecting to it.
+   The canonical tags, sitemap and share cards all use the apex.
+3. **Analytics**: paste the GA4 measurement ID into `GA_ID` in `analytics.js`
+   and commit. Until then nothing loads.
 
-**`mark.jpg` needs replacing.** The current headshot has visible processing
-artifacts — white blotches across the hair, beard and glasses from a bad
-background cut. On a site whose premise is credibility, a clean 640×640 photo
-on a plain background is worth the afternoon.
+After deploy: open the site, type `KMD_BUILD` in the console and check it
+matches this file; share a link in Slack or LinkedIn and confirm `card.jpg`
+renders; submit `sitemap.xml` in Google Search Console.
 
-`window.KMD_BUILD` carries a build stamp (type it in the console). Bump it on
-every change; it is how you confirm what is actually deployed, which has
-already saved a debugging session. It is no longer printed in the footer —
-nobody but the maintainer needs it.
-
----
+**`mark.jpg` still needs replacing.** The current headshot has background
+artifacts. A clean 640×640 on a plain background.
 
 ## 13. Testing before you ship
 
@@ -593,3 +619,28 @@ door now.
   compression added.
 - Apple-style type scale and spacing. Three-ways cards → paragraphs. Score
   arithmetic → FAQ. Field labels above inputs.
+
+**2026-09-19.1400** — seeded neutrals.
+- Neutrals re-derived from the bird's hue on both sides; dark-mode primary is
+  the bird itself (`#9DD2FF`); highlight container from the same ramp.
+  Semantic colours and the dark primary button were considered and declined
+  (see §8).
+
+**2026-09-19.1600** — copy and clutter.
+- Copy fixed: synchronous `execCommand` copy inside the click, iOS range
+  selection, LinkedIn opened after success; feedback is "Copied ✓" or
+  "Couldn't copy" and nothing longer. Tapping a DM preview selects it.
+- Boss Mode close screen: one Mark card (with the Boss Mode DM text) instead
+  of an inline DM block plus a second Mark card; one text link back to the
+  verdict instead of two buttons.
+- Mark card: primary button full width, Calendly as a text link below.
+
+**2026-09-19.1700** — hero line: *Before you commit it, try to kill it.* Updated in the h1, og/twitter titles and alts, and `card.jpg`.
+
+**2026-09-20.0900** — launch prep.
+- `analytics.js` (GA4, hash stripped, parameter-free events, early-event
+  queue) on both pages; FAQ and JSON-LD privacy wording updated to match.
+- Pipeline dek rewritten. Bio: "Marine" for "Marine officer".
+- All em and en dashes removed from site copy; two "not X, it is Y" lines
+  tightened.
+- `amplify.yml`, `customHttp.yml`, `404.html` added; §12 rewritten for Amplify.

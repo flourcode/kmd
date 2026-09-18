@@ -4,28 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pipeline Coverage Calculator for Sales Managers | Kill My Pipeline</title>
-<meta name="description" content="Free pipeline coverage calculator. 3X is a rule of thumb; your win rate says what you actually need. Target, pipeline, win rate — scored in your browser. No login, nothing stored.">
+<meta name="description" content="Free pipeline coverage calculator. 3X is a rule of thumb; your win rate says what you actually need. Target, pipeline, win rate, scored in your browser. No login, nothing stored.">
 <link rel="canonical" href="https://killmydeal.com/pipeline/">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <link rel="icon" type="image/png" sizes="64x64" href="../favicon.png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://killmydeal.com/pipeline/">
-<meta property="og:title" content="Kill My Pipeline — 3X is a rule of thumb. Your win rate may disagree.">
+<meta property="og:title" content="Kill My Pipeline: 3X is a rule of thumb. Your win rate may disagree.">
 <meta property="og:description" content="Coverage against your target and your own win rate, not a benchmark. One minute, nothing stored.">
 <meta property="og:site_name" content="Kill My Deal">
 <meta property="og:image" content="https://killmydeal.com/card-pipeline.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Kill My Pipeline — 3X is a rule of thumb. Your win rate may disagree. Target, coverage, win rate.">
+<meta property="og:image:alt" content="Kill My Pipeline: 3X is a rule of thumb. Your win rate may disagree. Target, coverage, win rate.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Kill My Pipeline — 3X is a rule of thumb. Your win rate may disagree.">
+<meta name="twitter:title" content="Kill My Pipeline: 3X is a rule of thumb. Your win rate may disagree.">
 <meta name="twitter:description" content="Coverage against your target and your own win rate, not a benchmark.">
 <meta name="twitter:image" content="https://killmydeal.com/card-pipeline.jpg">
-<meta name="twitter:image:alt" content="Kill My Pipeline — 3X is a rule of thumb. Your win rate may disagree.">
+<meta name="twitter:image:alt" content="Kill My Pipeline: 3X is a rule of thumb. Your win rate may disagree.">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFBFC">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#15181C">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F9FCFF">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#101418">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -48,7 +48,7 @@
         { "@type": "Question", "name": "Where does 3X pipeline coverage come from?",
           "acceptedAnswer": { "@type": "Answer", "text": "3X assumes you close about a third of the qualified pipeline that is due in the period. It is a win rate in disguise. If your qualified win rate is 20%, you need 5X. If it is 50%, you need 2X. The benchmark is only right for teams that happen to win a third of what they qualify." } },
         { "@type": "Question", "name": "Does anything I enter leave my device?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The arithmetic runs in your browser. No account, no analytics, no CRM connection, no API call. Nothing is sent anywhere unless you choose to share a result." } },
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The arithmetic runs in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your numbers. Nothing else leaves the page unless you choose to share a result." } },
         { "@type": "Question", "name": "What counts as qualified pipeline?",
           "acceptedAnswer": { "@type": "Answer", "text": "Pipeline you expect to close in the period and can defend: the customer has said they want it, the money has a name, you have reached someone who can act, you know how they buy, and something forces action now. That is what Kill My Deal tests one deal at a time." } }
       ]
@@ -57,19 +57,20 @@
 }
 </script>
 <link rel="stylesheet" href="../kmd.css">
+<script src="../analytics.js" defer></script>
 </head>
 <body>
 
 <div class="wrap">
   <header class="appbar">
-    <a class="logo" href="/" aria-label="Kill My Deal — home"><picture><source srcset="../bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bluebird.png" alt="" width="38" height="32"></picture> Kill My Deal</a>
+    <a class="logo" href="/" aria-label="Kill My Deal, home"><picture><source srcset="../bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bluebird.png" alt="" width="38" height="32"></picture> Kill My Deal</a>
     <a class="chip" href="/">Kill my deal →</a>
   </header>
   <div id="screen">
     <span class="overline">Kill My Pipeline</span>
     <h1>3X is a rule of thumb. Your win rate may disagree.</h1>
-    <p class="dek">Tell me the number, the pipeline you actually expect to close against it, and how often you
-      win. We'll see how big the hole is. <span id="state">The numbers below are an example — type yours over them.</span></p>
+    <p class="dek">Enter your number, the pipeline you actually expect to close against it, and your win rate.
+      We'll show you the gap. <span id="state">The numbers below are examples. Type over them with yours.</span></p>
 
     <form id="f" autocomplete="off" novalidate>
       <label class="tf"><span class="tf-label">Revenue target for the period</span><input id="goal" type="text" inputmode="decimal" value="$10M"></label>
@@ -98,7 +99,7 @@
     <p class="lede">Three times the number in qualified pipeline is the coverage rule most sales
       organisations plan to. Almost nobody asks where it came from.</p>
     <p>It came from a win rate. If a third of the qualified pipeline due in a period closes, 3X covers the
-      number exactly. So 3X is not a law of sales; it is <strong>a 33% win rate written down without saying
+      number exactly. So 3X is <strong>a 33% win rate written down without saying
       so.</strong> A team that wins 20% of what it qualifies needs 5X. A team that wins half needs 2X. Planning
       to 3X with a 20% win rate is hopium with a spreadsheet.</p>
     <p>The other assumption is the word <em>qualified</em>. Coverage counts pipeline that would survive a
@@ -124,10 +125,10 @@
         <p>I've spent a lot of years in rooms where somebody eventually asks, <strong>"Okay, but is this
           deal actually real?"</strong></p>
         <p>I led Partner Sales Teams at AWS for six years, sold at F5, Red Hat, STEC and Virident, and
-          before that spent 20 years as a Marine officer. I've been the seller defending the deal, the
+          before that spent 20 years as a Marine. I've been the seller defending the deal, the
           manager poking holes in it, the partner trying to help, and the guy explaining the forecast one
           level up.</p>
-        <p>Federal sales has a lot of side roads — funding, partners, contract vehicles, capture plans,
+        <p>Federal sales has a lot of side roads: funding, partners, contract vehicles, capture plans,
           and people who can say yes versus people who just sound like they can. I've been around enough
           of it that I can usually get oriented pretty quickly.</p>
         <p>I'm not here to tell you your deal is bad. I'm here to help you figure out what you
@@ -139,7 +140,7 @@
     <h3>Three ways to work together</h3>
     <p><strong>Kill one with me.</strong> 30 minutes, free. Bring me a deal and we'll try to kill it
       together. If it survives, you'll know why. If it doesn't, you'll know what to prove next.</p>
-    <p><strong>Work through one problem.</strong> 90 minutes, paid. One issue, properly — a deal, a territory,
+    <p><strong>Work through one problem.</strong> 90 minutes, paid. One issue, properly: a deal, a territory,
       a partner, a capture plan. You get a short write-up afterward so there's something to work from.</p>
     <p><strong>Run the review with me.</strong> Monthly or for a few weeks. I sit in your pipeline reviews,
       ask the five questions, and stay involved while the team works the answers.</p>
@@ -161,9 +162,10 @@
         It is a win rate in disguise. If your qualified win rate is 20%, you need 5X. If it is 50%, you need
         2X. The benchmark is only right for teams that happen to win a third of what they qualify.</div></details>
     <details class="exp"><summary>Does anything I enter leave my device?</summary>
-      <div class="body">No. The arithmetic runs in your browser. No account, no analytics, no CRM connection,
-        no API call. Nothing is sent anywhere unless you choose to share a result — Copy link puts your
-        inputs in the URL so you can send it to somebody, and that's the only time.</div></details>
+      <div class="body">No. The arithmetic runs in your browser. No account, no CRM connection, no API call.
+        The site counts page views with Google Analytics and never sends your numbers, and never the part of
+        the link where a shared result lives. If you press Share, your inputs go into the link so you can
+        send it to somebody, and that is the only time.</div></details>
     <details class="exp"><summary>How is the verdict calculated?</summary>
       <div class="body">Required pipeline is the number still to find ÷ your qualified win rate, or × 3 if you
         leave win rate blank. The verdict is your pipeline as a share of that: covered at 100% or more, hopium
@@ -184,7 +186,8 @@
 </footer>
 <script>
 'use strict';
-window.KMD_BUILD = '2026-09-19.1200'; // console check for what's deployed
+window.KMD_BUILD = '2026-09-20.0900'; // console check for what's deployed
+const kmd = (n) => { if (typeof window.kmd === 'function') window.kmd(n); else (window.kmdQ = window.kmdQ || []).push(n); };
 const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const $ = (id) => document.getElementById(id);
 const TARGET = 3;
@@ -255,7 +258,7 @@ function compute(i) {
   const covWin = i.win > 0 ? 1 / i.win : TARGET;
   const ATTACK = {
     COVERED: i.win > 0 ? `Covered at ${X(covWin)}. Now: is it as qualified as it looks?`
-                       : 'Covered at 3X — if 3X is your number. Is it?',
+                       : 'Covered at 3X, if 3X is your number. Is it?',
     HOPIUM: i.win > 0 && cov >= TARGET ? `3X says you're fine. Your win rate says you need ${X(covWin)}.`
                                        : `You're close, and close is what gets forecast as fine.`,
     'ON LIFE SUPPORT': `You need ${money(gap)} more before this is a plan.`,
@@ -310,19 +313,32 @@ function shareBlock(s) {
 // The DM carries multiples, never dollars. A stranger should not receive your quota.
 function dmText(s) {
   const need = s.win ? `my win rate says I need ${X(s.covWin)}` : `I haven't got a win rate to argue with 3X`;
-  return `Mark — ran my pipeline through Kill My Pipeline. I'm at ${X(s.cov)} and ${need}. `
+  return `Mark, ran my pipeline through Kill My Pipeline. I'm at ${X(s.cov)} and ${need}. `
        + `I don't have a good answer for where the rest comes from. Worth 20 minutes?`;
 }
 function copyText(text) {
-  try { if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text); }
-  catch (e) { return Promise.reject(e); }
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px;';
+    document.body.appendChild(ta);
+    if (/iP(hone|ad|od)/.test(navigator.userAgent)) {
+      ta.contentEditable = 'true'; ta.readOnly = false;
+      const r = document.createRange(); r.selectNodeContents(ta);
+      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      ta.setSelectionRange(0, text.length);
+    } else { ta.select(); }
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    if (ok) return Promise.resolve();
+  } catch (e) {}
+  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
   return Promise.reject(new Error('no clipboard'));
 }
 function copyDM(btn, text) {
-  const win = window.open('https://www.linkedin.com/in/markflournoy/', '_blank', 'noopener');
+  kmd('pipeline_dm_copy');
   copyText(text)
-    .then(() => { btn.textContent = win ? 'Copied — LinkedIn opened' : 'Copied — open LinkedIn to paste'; })
-    .catch(() => { btn.textContent = 'Press and hold the text above to copy'; });
+    .then(() => { btn.textContent = 'Copied ✓'; window.open('https://www.linkedin.com/in/markflournoy/', '_blank', 'noopener'); })
+    .catch(() => { btn.textContent = "Couldn't copy"; });
 }
 const clearHash = () => { try { history.replaceState(null, '', location.pathname); } catch {} };
 
@@ -365,21 +381,22 @@ function render() {
     <div class="card" style="margin-top:20px;">
       <h3>Stuck on where it comes from?</h3>
       <p>I'm Mark. The math tells you how big the hole is; it doesn't tell you how to fill it,
-        and "prospect harder" is not a plan. Send me one line — no company name, no dollar figures, just
+        and "prospect harder" is not a plan. Send me one line: no company name, no dollar figures, just
         the multiples.</p>
       <div class="preview mono">${esc(dmText(s))}</div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="dmBtn" type="button">Copy this &amp; DM me</button>
-        <a class="btn" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=pipeline&utm_content=after_score"
-           target="_blank" rel="noopener">Bring me a pipeline</a>
+      <button class="btn btn-primary btn-lg btn-full" id="dmBtn" type="button" style="margin-top:14px;">Copy this &amp; DM me</button>
+      <div class="btn-row center" style="margin-top:4px;">
+        <a class="btn btn-text" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=pipeline&utm_content=after_score"
+           target="_blank" rel="noopener">Or book 30 minutes</a>
       </div>
-      <p class="fine" style="text-align:center;margin:12px 0 0;">Free either way. I answer LinkedIn faster than email.</p>
+      <p class="fine" style="text-align:center;margin:4px 0 0;">Free either way. I answer LinkedIn faster than email.</p>
     </div>`;
   $('copy').onclick = (e) => {
     const btn = e.currentTarget;
+    kmd('pipeline_share');
     try { history.replaceState(null, '', '#' + encodeInputs()); } catch {}
     copyText(shareBlock(s)).then(() => { btn.textContent = 'Copied ✓'; })
-      .catch(() => { btn.textContent = 'Copy failed — use the address bar'; });
+      .catch(() => { btn.textContent = "Couldn't copy"; });
   };
   $('dmBtn').onclick = (e) => copyDM(e.currentTarget, dmText(s));
 }
@@ -389,6 +406,7 @@ const stateChip = $('state');
 $('f').addEventListener('submit', (e) => e.preventDefault());
 $('f').addEventListener('input', () => {
   if (shared) { shared = false; clearHash(); }
+  if (!stateChip.hidden) kmd('pipeline_edit');
   stateChip.hidden = true;
   render();
 });

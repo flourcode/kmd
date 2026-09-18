@@ -11,7 +11,7 @@ from fontTools.varLib import instancer
 import sys
 CARDS = {
   'deal': dict(out='card.jpg', wordmark='KILL MY DEAL',
-    headline=['Before you put it in commit,', 'try to kill it.'],
+    headline=['Before you commit it,', 'try to kill it.'],
     dek='Five questions to separate proof from hopium before your manager does.',
     foot='Built for federal sellers. No login. No CRM.', url='killmydeal.com',
     pillars=['CUSTOMER', 'MONEY', 'POWER', 'PATH', 'NOW']),
@@ -25,8 +25,8 @@ C = CARDS[sys.argv[1] if len(sys.argv) > 1 else 'deal']
 HEADLINE, DEK, FOOT, URL, PILLARS = C['headline'], C['dek'], C['foot'], C['url'], C['pillars']
 
 W, H, M = 1200, 630, 72
-SURF=(0xFF,0xFF,0xFF); INK=(0x1D,0x1D,0x1F); VAR=(0x6E,0x6E,0x73); PINK=(0x1D,0xA1,0xF2)
-PRIMC=(0xF5,0xF5,0xF7); ONPRIMC=(0x1D,0x1D,0x1F)
+SURF=(0xF9,0xFC,0xFF); INK=(0x13,0x16,0x19); VAR=(0x55,0x62,0x70); PINK=(0x1D,0xA1,0xF2)
+PRIMC=(0xED,0xF2,0xF7); ONPRIMC=(0x13,0x16,0x19)
 
 woff2 = open('inter.woff2', 'rb').read()
 def font(w, size):
