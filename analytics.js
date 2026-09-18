@@ -1,7 +1,7 @@
 /* Kill My Deal analytics.
    Paste your Google Analytics 4 measurement ID below (it looks like G-XXXXXXXXXX).
    Leave it empty and nothing loads. Both pages include this file. */
-var GA_ID = '';
+var GA_ID = 'G-V3DHGT4KQ6';
 
 (function () {
   if (!GA_ID) { window.kmd = function () {}; window.kmdQ = []; return; }
