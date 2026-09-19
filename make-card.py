@@ -20,6 +20,21 @@ CARDS = {
     dek='Coverage against your target and your own conversion, not a benchmark.',
     foot='For sales managers. No login. Nothing stored.', url='killmydeal.com/pipeline',
     pillars=['TARGET', 'COVERAGE', 'WIN RATE']),
+  'rep': dict(out='card-rep.jpg', wordmark='KILL MY REP',
+    headline=['Before you write them up,', 'find out what is wrong.'],
+    dek='Is it the rep, the territory, the comp plan, or the year they gave up on?',
+    foot='For sales managers. No names. Nothing stored.', url='killmydeal.com/rep',
+    pillars=['CUSTOMERS', 'PIPELINE', 'TERRITORY', 'COMP', 'BELIEF']),
+  'partner': dict(out='card-partner.jpg', wordmark='KILL MY PARTNER',
+    headline=['Before you renew the partnership,', 'try to kill it.'],
+    dek='Five questions that separate a partner who sells with you from a logo on a slide.',
+    foot='For partner managers. No names. Nothing stored.', url='killmydeal.com/partner',
+    pillars=['SOURCED', 'ACCOUNTS', 'OWNER', 'PLAN', 'PULL']),
+  'territory': dict(out='card-territory.jpg', wordmark='KILL MY TERRITORY',
+    headline=['Before you sign up for the number,', 'try to kill the territory.'],
+    dek='Can the patch make the number, or are you being asked to grow where nobody could?',
+    foot='For sellers. No account names. Nothing stored.', url='killmydeal.com/territory',
+    pillars=['SPEND', 'ACCOUNTS', 'BASE', 'ACCESS', 'HISTORY']),
 }
 C = CARDS[sys.argv[1] if len(sys.argv) > 1 else 'deal']
 HEADLINE, DEK, FOOT, URL, PILLARS = C['headline'], C['dek'], C['foot'], C['url'], C['pillars']

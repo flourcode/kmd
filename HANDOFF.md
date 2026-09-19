@@ -3,13 +3,17 @@
 Everything needed to maintain, extend or rebuild this. One directory, two
 pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-20.1100**
+**Current build: 2026-09-22.0900**
 
 | Path | What |
 | --- | --- |
 | `/` | **Kill My Deal** — the seller's tool. *Is this deal real?* |
 | `/pipeline/` | **Kill My Pipeline** — the manager's tool. *Do I have enough real pipeline?* |
+| `/rep/` | **Kill My Rep** — for managers. *Is it the rep, or the patch?* |
+| `/partner/` | **Kill My Partner** — for partner managers. *Is this partner real, or a logo?* |
+| `/territory/` | **Kill My Territory** — for sellers. *Can this patch make the number?* |
 | `kmd.css`, `inter.woff2` | shared design system and typeface |
+| `kill.js`, `make-tools.py` | the shared five-question engine and the generator for the three newer tools |
 
 The third part of the family — can the team defend what they're carrying — is
 the consulting, not software. Do not brand it "Kill My Review"; two products
@@ -290,10 +294,29 @@ hue (207) at very low chroma, so the page and the mark belong to each other:
 `#F9FCFF` surface, `#EDF2F7` cards, `#131619` ink. Blue is the old Twitter
 blue, `#1DA1F2`, and it means *go*: it is on exactly one element per screen
 (the primary button) plus links and the filled progress segments. The verdict
-card is ink for every tier except HEALTHY / COVERED, which is blue. There is
-no green, amber, red or pink anywhere; answers are words, and *No* is set in
-ink weight. The highlight container (`--accent-soft`, `#C2E3FF`) is used for
-the hand-off card on `/pipeline/` and for a hovered choice.
+card is the one place colour means something else: a traffic light in
+pastels. Green `#C6EBC9`, yellow `#FFF982`, orange `#FFCF8A`, washed red
+`#F5B3AD` for the four tiers, ink text on all of them (`--v-*` tokens; dark
+mode dims each a step). The red must read as red, not pink: keep the blue out
+of it. Nowhere else on the site uses these colours.
+
+**The verdict word is the hero, and the number is literal.** The 0 to 100
+score still runs underneath to pick the tier, but nobody sees it. The card
+shows the verdict word (HOPIUM, KILL IT, THE PATCH), then one line: *2½ of 5
+proven. Weakest: money.* A yes is one, a sort of is a half. That is a number
+someone who has never seen the tool understands at a glance, and it is what
+the DM and the share block now carry instead of "scored 56". Kill My Pipeline
+keeps its number because 1.1X is a real quantity.
+
+**Labels are 15 characters or fewer.** `.verdict-word` is sized with `clamp`
+to fit two lines at a 360px phone and never breaks mid-word; every label on
+every tool has been rendered at 360 and 390 and checked. Hyphenated labels
+break at the hyphen and look wrong, which is why *Co-marketing* became *All
+talk*. If you add a verdict, keep it short and run `shot/fit.js` or eyeball
+it at 360.
+
+**Kill My Deal's bottom tier is KILL IT**, not *Dead on arrival*. The
+medical ladder stays for the middle two; the bottom one is the instruction.
 
 **In the dark, the button is the bird.** Dark-mode primary is `#9DD2FF` with
 `#00182B` text, so the logo and the action share a colour. Surfaces are the
@@ -338,6 +361,20 @@ finds anyway. The result screen merged "be ready for" and "do this" into one
 card, moved the arithmetic into the FAQ, and collapsed three text actions to
 *Share* and *Start over*. The three-ways cards became three paragraphs. If
 you add something back, ask which of the eight questions it answers.
+
+### The Mark section
+
+It is the mentorship pitch, and it is written to the manager, who is the
+buyer. Credentials in two sentences, then *A few things I see a lot*: four
+situations carried over from the old consulting site (the pipeline looks
+better than it is; the partner likes you but nothing happens; busy team, no
+rhythm; the number from above disagrees with the number below), then the
+thesis: figure out which problem you have before you fix the wrong one, which
+is also what the tools do. The tools are how a mentor introduces himself at
+scale; this section is where the mentor shows up. Do not reframe it around
+the tool. The free tier is *Talk it through*, 20 minutes, and it accepts a
+deal, a pipeline or a rep. The old consulting site is retired; nothing else
+from it comes over. Same markup on both pages; edit both.
 
 ### Voice
 
@@ -497,7 +534,7 @@ artifacts. A clean 640×640 on a plain background.
 
 - **fedhoo.com** — Mark's federal market research tool, built on USASpending and
   SAM data. Cross-linked from the bio note and the footer.
-- **Calendly** — `calendly.com/markflournoy/chat-with-mark`, free 30 minutes,
+- **Calendly** — `calendly.com/markflournoy/chat-with-mark`, free 20 minutes,
   UTM-tagged `utm_source=killmydeal`.
 - **LinkedIn** — `linkedin.com/in/markflournoy`. The DM is the primary ask;
   a stressed rep sends one line long before booking a meeting.
@@ -550,7 +587,44 @@ partner-strategy material, the generic GTM positioning. The federal specialty
 pitch is already the dek. The old site should be retired; this is the front
 door now.
 
-## 16. Changelog
+## 16. Rep, Partner, Territory, and the engine
+
+The three newer tools share one script, `kill.js`. Each page is a shell
+plus a config passed to `KillMy({...})`: five questions, weights, a
+`verdict(answers, total, weak)` function, the question the boss will ask per
+pillar (`grill`), the first move per pillar (`moves`), a hand-off card, the
+Mark card copy and the DM template. The engine does the rest: intro, the
+five screens with segmented progress, the result, share (five-letter hash,
+same as Kill My Deal), the DM, analytics events named `<slug>_start`,
+`<slug>_verdict`, `<slug>_share`, `<slug>_dm_copy`.
+
+**The pages are generated.** Edit copy in `make-tools.py`, run it from the web
+root, commit the three `index.html` files it writes. Do not hand-edit those
+files; the next run overwrites them. The generator also builds the header
+menu from its `TOOLS` list, and copies the Mark section out of `index.html`,
+so the bio is edited once.
+
+**Kill My Deal and Kill My Pipeline keep their own scripts.** Deal has Boss
+Mode and the score caps; Pipeline is arithmetic, not questions. Porting Deal
+onto the engine is possible and was not worth the regression risk.
+
+**Two verdict shapes.** Partner and Territory score 0 to 100 on the Deal
+ladder (green ≥ 75, yellow ≥ 55, peach ≥ 35, pink below) with a NO capping the
+score at 74. **Rep is a diagnosis, not a score**: `capOnNo: false`, no number
+shown, and `verdict()` returns one of six labels by rule, structural causes
+first (territory, then checked-out, then comp, then performance). The verdict
+managers argue with is *Leave them alone*, and it is usually right; keep it.
+
+**Names.** None of the three ever asks for one, and the DM templates carry the
+verdict and the weakest pillar only. A tool that stores judgments about named
+people is a different product.
+
+**Header.** With five tools the single swap chip became a *Tools* menu, a
+`<details>` with no JS. The home page also carries *Other things worth
+killing*, one line per tool, before the FAQ. That list and the menu are the
+only cross-navigation; do not add a tools portal page.
+
+## 17. Changelog
 
 **2026-09-18.1400** — review pass.
 - `card.jpg` regenerated to match the current hero and dek (it still carried
@@ -657,3 +731,25 @@ door now.
 - `amplify.yml`, `customHttp.yml`, `404.html` added; §12 rewritten for Amplify.
 
 **2026-09-20.1100** — case audit: pillar headings capitalise after the colon; FAQ referenced the old *GRILL ME* label; case rules written into §8.
+
+**2026-09-20.1300** — verdict pastels (green / yellow / peach / pink) in light and dark, from user feedback; blue back to meaning the button only.
+
+**2026-09-21.0900** — Mark section rewritten on both pages as the mentorship pitch: credentials, four situations, the thesis, three ways to work together; free tier is *Talk it through*, 20 minutes; CTA *Talk with Mark*.
+
+**2026-09-21.1300** — Kill My Rep, Kill My Partner, Kill My Territory.
+- `kill.js` shared engine; `make-tools.py` generates the three pages from one
+  template and the copy in the script.
+- Header *Tools* menu on every page; *Other things worth killing* list on the
+  home page; sitemap and share cards for all five tools.
+- Rep is a rule-based diagnosis with six verdicts; Partner and Territory
+  score on the Deal ladder.
+
+**2026-09-22.0900** — verdict card rework.
+- Traffic-light pastels: orange and washed red replace peach and pink.
+- Verdict word is the hero on every question tool; the literal count (*2½ of
+  5 proven*) and the weakest pillar replace the 0 to 100 score on the card,
+  in the DM and in the share block.
+- *Dead on arrival* is now *Kill it* on Kill My Deal. Rep verdicts shortened
+  to fit (*They're fine*, *The patch*, *The plan*, *Checked out*, *The rep*,
+  *Not sure*); Partner verdicts renamed *Real*, *All talk*, *Neighbors*, *Logo
+  swap*. All labels fit-tested at 360 and 390px.

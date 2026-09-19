@@ -5,7 +5,7 @@ frontend:
   phases:
     build:
       commands:
-        - rm -rf preview HANDOFF.md make-card.py amplify.yml
+        - rm -rf preview HANDOFF.md make-card.py make-tools.py amplify.yml
   artifacts:
     baseDirectory: /
     files:
