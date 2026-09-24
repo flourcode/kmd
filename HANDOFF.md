@@ -3,7 +3,7 @@
 Everything needed to maintain, extend or rebuild this. One directory, two
 pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-22.0900**
+**Current build: 2026-09-29.0900**
 
 | Path | What |
 | --- | --- |
@@ -12,6 +12,8 @@ pages, one shared stylesheet and font, no build step, no server, no dependencies
 | `/rep/` | **Kill My Rep** — for managers. *Is it the rep, or the patch?* |
 | `/partner/` | **Kill My Partner** — for partner managers. *Is this partner real, or a logo?* |
 | `/territory/` | **Kill My Territory** — for sellers. *Can this patch make the number?* |
+| `/olr/` | **Kill My OLR** — for managers in talent review. *Will my case for them survive the room?* |
+| `/brief/` | **Kill My Brief** — for anyone presenting a doc, deck or QBR. *What's the question I hope nobody asks?* |
 | `kmd.css`, `inter.woff2` | shared design system and typeface |
 | `kill.js`, `make-tools.py` | the shared five-question engine and the generator for the three newer tools |
 
@@ -493,7 +495,7 @@ caching: HTML is `no-cache`, CSS and JS one hour, the font a year, images a
 week. There is no asset versioning, so a CSS change is live within an hour.
 
 Set these in the Amplify console; they cannot live in the repo:
-1. **Rewrites and redirects**: `/pipeline` → `/pipeline/` (301);
+1. **Rewrites and redirects**: `/pipeline` → `/pipeline/` (301); `/case/<*>` and `/case` → `/olr/` (301);
    `https://www.killmydeal.com/<*>` → `https://killmydeal.com/<*>` (301); and
    a 404 rule: source `/<*>`, target `/404.html`, type `404`.
 2. **Domain**: apex `killmydeal.com` as the primary, `www` redirecting to it.
@@ -548,12 +550,28 @@ period, qualified win rate; behind *Go deeper*: average deal size, sellers,
 closed so far, months in / months left. Sales-cycle days were cut — nine
 fields is not a one-minute tool.
 
-**The page opens on example numbers** ($10M / $11.4M / 30% / $500K / 8) with a
-verdict already showing and an EXAMPLE chip next to the title, so a first
-visitor sees what the tool does before typing anything. The chip disappears on
-the first keystroke or when a shared link fills the fields. The example was
-chosen to land on DEAD ON ARRIVAL: it shows the 3X gap and the win-rate gap
-disagreeing, which is the point.
+**It runs like the question tools now: one number per screen.** Step 1
+target, step 2 pipeline (each prefilled with an example and selected, so a
+visitor can tap Next twice and see how it works, or type over it), then the
+verdict at a 3X assumption. The verdict card carries a *meta* line saying
+what it was computed at. Under it, the flip card: *Now kill the 3X
+assumption*, with three chips (Federal about 20%, SaaS about 25%, A third)
+and a field for a real number. Tapping one re-renders the verdict in place
+and the meta line records the flip: *At your 20% win rate. 3X said covered.*
+That sentence is the product. Deal size, sellers ("Just me" for a seller
+running it alone) and closed-so-far live behind *Make it concrete* and
+update on change. *Change the numbers* returns to step 1 with values kept.
+
+**The calendar fills itself.** Months in and months left are computed from
+today's date and a year-end chip, *Dec 31* (default, the audience is on a
+calendar year) or *Sep 30*. The clock card says *Your year has N days left.
+Your federal customers' money expires in M.* On the Sep 30 setting it says
+only the fiscal days left. Nobody types a month.
+
+**Three rows, not six.** You have, you need (at your rate, or at 3X), the
+gap (with deal count when deal size is known), per seller when known. The
+full arithmetic is behind a text button. Sales-cycle days were considered
+and left out; the clock does most of that job for free.
 
 **Lead with the win rate, show 3X as the thing being killed.** Required pipeline
 is `still-to-find ÷ win rate` (× 3 if no win rate given). 3X is a 33% win rate
@@ -609,20 +627,140 @@ Mode and the score caps; Pipeline is arithmetic, not questions. Porting Deal
 onto the engine is possible and was not worth the regression risk.
 
 **Two verdict shapes.** Partner and Territory score 0 to 100 on the Deal
-ladder (green ≥ 75, yellow ≥ 55, peach ≥ 35, pink below) with a NO capping the
-score at 74. **Rep is a diagnosis, not a score**: `capOnNo: false`, no number
-shown, and `verdict()` returns one of six labels by rule, structural causes
-first (territory, then checked-out, then comp, then performance). The verdict
-managers argue with is *Leave them alone*, and it is usually right; keep it.
+ladder (green ≥ 75, yellow ≥ 55, orange ≥ 35, red below) with a NO capping the
+score at 74; the card shows the word and the literal count, never the score.
+**Rep is a diagnosis, not a score**: `capOnNo: false`, `count: false`, and
+`verdict()` returns one of six labels by rule.
 
-**Names.** None of the three ever asks for one, and the DM templates carry the
+**Kill My Rep asks about the situation before the person.** The five, in
+order: PATCH (could a good rep make this number here, on this plan), CUSTOMERS
+(do customers choose them; pull, not meeting count), PIPELINE (what exists
+because they're here), CRAFT (can they actually sell), WILL (are they still
+trying). CRAFT is the question that separates *can't* from *isn't*, which are
+different management problems, and it was missing from the first version.
+The verdicts are the four managerial buckets plus two: *The situation* (patch
+no; good rep, bad situation), *Coach them* (craft no, will yes), *Manage them*
+(craft yes, effort or activity no), *Wrong rep* (craft no and will no), *They're
+fine* (all yes; leave them alone) and *Not sure*. Order of evaluation matters:
+the situation is checked before anything about the person, so a rep in a dead
+patch is never called a performance problem. The hand-off depends on the
+verdict (`handoff` may be a function): *The situation* sends them to Kill My
+Territory; everything else says sit with the rep and run five real deals
+through Kill My Deal, which is the best advice on the page. Comp is part of
+PATCH ("on this plan"); do not add it back as a sixth question. Five is the
+family.
+
+**Hand-offs follow the verdict, and they form a loop.** Deal is the front
+door and has no outbound hand-off; the other four all point somewhere that
+makes sense for the verdict they just gave: Pipeline → Deal ("how much of
+this survives?"), or → Territory when the gap is a creation problem (ratio
+under .5); Partner → Deal for *Real* and *All talk*, → Pipeline ("how much of
+your number is leaning on them?") for *Neighbors* and *Logo swap*; Territory →
+Pipeline for *Workable* and *Thin*, → Rep ("their version of this question,
+and its first question is the patch") for *A stretch* and *Nobody could*;
+Rep → Territory for *The situation*, → Deal ("sit with them and run five real
+deals") for everything else. Every page also listens for `hashchange`, so a
+shared link opened in an already-open tab renders.
+
+**The booking link arrives already knowing the verdict.** Every *Or book 20
+minutes* link on every result screen carries Calendly's `a1=` parameter,
+which prefills the first question on the event type (the default "anything
+to help prepare" question counts). The note is the verdict, the count and
+the weakest pillar, or for Pipeline the coverage multiples and pace: *Kill My
+Pipeline: 1.9X coverage, dead on arrival, needs 5.0X at 20%, 4.1x current
+pace.* Never a name, never a dollar figure; the old site's version sent
+dollars and this one must not. If the Calendly event type's first question
+is ever removed, the prefill silently does nothing, which is fine.
+
+**Kill My OLR grades the case, never the rep.** It was built as *Kill My
+Case* at `/case/` and renamed because most users are at Amazon and OLR is the
+word they use; *case* stays in body copy where it is the precise word (the
+room tests your case), but not in the name, URL, card, menu or DMs. The FAQ
+defines OLR for anyone who isn't Amazon, and says the tool works the same in
+any calibration room. `/case/` 301s to `/olr/` (Amplify console rule). Built for the AWS talent
+review (evaluate, calibrate, communicate) but true of any calibration room:
+the manager proposes, the room probes, and all the room can test is the case.
+Five questions about the case: RECEIPTS (three things with numbers, the
+Forte framing), OWNERSHIP (what wouldn't have happened without them), SCOPE
+(their level, not strong execution a level down), HOW (an example per
+principle cited), NEXT (the harder thing you'd hand them). Verdicts are
+brief-quality only: *Ready*, *Thin*, *A story*, *No receipts*. It never asks
+a name, never predicts, suggests or mentions a rating, and the FAQ says so.
+The engine's **Grill mode** was added for it (`grillSet`: three questions per
+pillar, `fix`, `grillLines`, `dmGrill`); it works the same as Kill My Deal's
+Boss Mode and is available to any tool that provides a `grillSet`. The bias
+checklist (recency, visibility, halo, horns, style, context) is a band, not a
+screen: it is the thing to read, not a form to fill. The research that led
+here proposed evidence-entry screens, a team table and local storage; all of
+that is typing, and the tools don't ask for typing.
+
+**Kill My Brief is the first tool whose audience is wider than sales**, and
+its copy is written for someone presenting a six-pager to a VP as much as
+for a QBR. The premise, from the research that led to it: the room is not
+attacking the document, it is attacking the assumptions underneath it. Five
+questions about the argument: POINT (one sentence, and why now), RECEIPTS
+(evidence for the three load-bearing claims, at least one from outside your
+team), ALTERNATIVE (including doing nothing), HOLE (your own weakest
+assumption and who will find it), ASK (what you need today and who owns
+what). Verdicts: *Room ready*, *A fight*, *Shark food*, *No point*. The hero
+is the signature question, *What's the question you're hoping nobody asks?*
+The research proposed eight questions; the three extra (why, so what,
+audience) live inside POINT, RECEIPTS and HOLE.
+
+**The sharks.** Grill mode on this tool opens with *Who's across the table?*
+and five choices (Finance, the executive, the technical leader, the sales
+leader, the skeptic); each shark has three questions for every pillar, so the
+grill is always that chair's questions about your weakest answer. This is the
+engine's `sharks` option (`{ id: { name, qs: { pillar: [3] } } }` plus
+`sharkPrompt`); a tool without `sharks` grills from `grillSet` as before. The
+chooser lives after the verdict, never on the intro: personalization comes
+after value. Nothing is ever uploaded; the tool never sees a word of the
+document.
+
+**Names.** None of the five ever asks for one, and the DM templates carry the
 verdict and the weakest pillar only. A tool that stores judgments about named
 people is a different product.
 
-**Header.** With five tools the single swap chip became a *Tools* menu, a
-`<details>` with no JS. The home page also carries *Other things worth
-killing*, one line per tool, before the FAQ. That list and the menu are the
-only cross-navigation; do not add a tools portal page.
+**Header and the kit's frame.** The *Tools* menu is a `<details>` with no JS,
+grouped by audience: *For sellers* (Deal, Territory), *For managers*
+(Pipeline, Rep, Partner, Case), *For anyone* (Brief), each with the moment
+it's for under the name. The home page carries *Seven places hope gets in*
+directly under the tool, before the essay: one line per tool, organized by
+**moment, not funnel stage** (before commit, month one in a patch, before a
+meeting, Monday with a worrying rep, quarterly, review season). That is the
+kit's honest shape, seven inspection points rather than prospecting-to-close,
+and it is the Rick Steves frame: which line to skip, where the back door is.
+The `TOOLS` list in `make-tools.py` is the single source for the menu; add a
+tool there with its group and its moment. That list and the menu are the only
+cross-navigation; do not add a tools portal page.
+
+**Shared behaviors, in all three runtimes** (the flagship's inline script,
+the pipeline page's, and `kill.js`), kept identical on purpose:
+- *History.* Every screen is a history entry (`nav()`), so the phone's back
+  gesture steps back one screen, including back through Grill to the shark
+  chooser, instead of leaving the site. In-page *← Back* buttons call
+  `history.back()` so the two stacks never disagree. Re-renders of the same
+  screen (a win-rate chip) replace rather than push.
+- *Focus.* Every screen change moves focus to the new question, verdict or
+  heading (`focusScreen()`), with no visible ring for programmatic focus.
+- *Share.* On a touch device *Share* opens the native share sheet with the
+  verdict as text and the link as URL; elsewhere, or if the sheet fails, it
+  copies. Cancelling the sheet does nothing.
+- *Menu.* The Tools menu closes on an outside tap and on Escape.
+- *Shared links.* Every page, the flagship included, renders a shared link
+  opened in a tab that already has the site (`hashchange`).
+
+**Structured data follows the page.** The last step of `make-tools.py`
+rebuilds every page's FAQPage JSON-LD from its visible FAQ, including the
+two hand-written pages. Edit the visible FAQ, run the script, done. It drifted
+three times by hand; it cannot now.
+
+**The header bird is `bird-sm.png`** (90px, 2 KB, and `bird-sm-dark.png`).
+`bluebird.png` is only for the 404 and the share cards.
+
+**One vocabulary.** Pipeline's bottom tier is *Kill it*, same as Deal. No two
+tools share a verdict word (OLR's middle tier is *Not yet*, Territory keeps
+*Thin*). Nobody outside the source says "pillar"; copy says "answer".
 
 ## 17. Changelog
 
@@ -753,3 +891,41 @@ only cross-navigation; do not add a tools portal page.
   to fit (*They're fine*, *The patch*, *The plan*, *Checked out*, *The rep*,
   *Not sure*); Partner verdicts renamed *Real*, *All talk*, *Neighbors*, *Logo
   swap*. All labels fit-tested at 360 and 390px.
+
+**2026-09-24.0900** — Kill My Rep rebuilt on the situation-first five (PATCH,
+CUSTOMERS, PIPELINE, CRAFT, WILL) with the four-bucket verdicts; hand-off now
+follows the verdict; engine supports `handoff` as a function. Card and home
+list updated.
+
+**2026-09-24.1100** — hand-offs on Pipeline, Partner and Territory now depend on the verdict (see §16); pipeline page handles `hashchange`.
+
+**2026-09-25.0900** — Kill My Pipeline restructured: two-step entry, verdict
+at 3X, win-rate chips that flip the verdict in place with the flip recorded
+on the card, calendar-filled months with a Dec 31 / Sep 30 chip and a clock
+line, three result rows with the arithmetic behind a button, "Just me".
+
+**2026-09-25.1100** — Calendly `a1=` prefill on every tool, multiples and verdict words only.
+
+**2026-09-26.0900** — Kill My Case at `/case/`: five questions on the
+manager's case for a rep, verdicts on the case only, Grill mode ("the room"
+asks three), bias-check band. Grill mode added to `kill.js`. Menu, home list,
+footer, sitemap, share card updated.
+
+**2026-09-26.1200** — Kill My Brief at `/brief/`: five questions on the
+argument, four verdicts, Grill mode with a shark chooser (five chairs, three
+questions each per pillar). Engine gained `sharks`. Menu, home list, footer,
+sitemap, share card updated.
+
+**2026-09-27.0900** — kit review: Tools menu grouped by audience with the
+moment under each name; home page list rewritten by moment and moved under
+the tool; Pipeline bottom tier *Kill it*; Case middle tier *Not yet*; bio
+free tier accepts "a territory you've been handed".
+
+**2026-09-28.0900** — audit fixes: back gesture steps through screens on
+every tool; focus moves to each new screen; native share sheet on phones;
+Tools menu closes on outside tap and Escape; the flagship handles shared
+links in an open tab; `--ink-3` darkened to pass AA in both schemes (4.7:1
+light, 6.2:1 dark); FAQ JSON-LD generated from the visible FAQ on every
+build; header bird 56 KB → 2 KB.
+
+**2026-09-29.0900** — Kill My Case renamed **Kill My OLR** at `/olr/`: name, title, hero, CTA, DMs, card (`card-olr.jpg`), menu, home list, footer, sitemap; FAQ adds *What is OLR?*; `/case/` redirects.

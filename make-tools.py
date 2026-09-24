@@ -3,18 +3,23 @@
 Run from the web root after editing copy below. Kill My Deal and Kill My Pipeline are hand-written."""
 import json, os, re
 
-BUILD = '2026-09-22.0900'
+BUILD = '2026-09-29.0900'
 TOOLS = [
-    ('/', 'Kill My Deal', 'Is this deal real?'),
-    ('/pipeline/', 'Kill My Pipeline', 'Do I have enough real pipeline?'),
-    ('/rep/', 'Kill My Rep', 'Is it the rep, or the patch?'),
-    ('/partner/', 'Kill My Partner', 'Is this partner real, or a logo?'),
-    ('/territory/', 'Kill My Territory', 'Can this patch make the number?'),
+    ('For sellers', '/', 'Kill My Deal', 'Before you put it in commit'),
+    ('For sellers', '/territory/', 'Kill My Territory', 'Month one in a new patch'),
+    ('For managers', '/pipeline/', 'Kill My Pipeline', 'Quarterly, before the review'),
+    ('For managers', '/rep/', 'Kill My Rep', 'When a rep is worrying you'),
+    ('For managers', '/partner/', 'Kill My Partner', 'Before you renew the partnership'),
+    ('For managers', '/olr/', 'Kill My OLR', 'Review season'),
+    ('For anyone', '/brief/', 'Kill My Brief', 'Before a meeting where someone can say no'),
 ]
 
 def menu(current):
-    items = ''.join(f'<a href="{h}"{" class=\"current\"" if h == current else ""}>{n}<small>{d}</small></a>' for h, n, d in TOOLS)
-    return f'<details class="menu"><summary><span class="chip">Tools ▾</span></summary><div class="menu-list">{items}</div></details>'
+    out, last = [], None
+    for g, h, n, d in TOOLS:
+        if g != last: out.append(f'<div class="menu-group">{g}</div>'); last = g
+        out.append(f'<a href="{h}"{" class=\"current\"" if h == current else ""}>{n}<small>{d}</small></a>')
+    return f'<details class="menu"><summary><span class="chip">Tools ▾</span></summary><div class="menu-list">{"".join(out)}</div></details>'
 
 MARK = open('index.html').read()
 MARK = MARK[MARK.index('<section class="band" id="mark"'):MARK.index('<section class="band" id="faq"')]
@@ -94,7 +99,7 @@ def page(t):
 
 <div class="wrap">
   <header class="appbar">
-    <button class="logo" id="logoHome" type="button" aria-label="{t['name']}, start over"><picture><source srcset="../bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bluebird.png" alt="" width="38" height="32"></picture> {t['name']}</button>
+    <button class="logo" id="logoHome" type="button" aria-label="{t['name']}, start over"><picture><source srcset="../bird-sm-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bird-sm.png" alt="" width="38" height="32"></picture> {t['name']}</button>
     {menu('/' + t['slug'] + '/')}
   </header>
   <div id="screen">
@@ -130,92 +135,107 @@ window.KMD_BUILD = '{BUILD}';
 REP = dict(
     slug='rep', name='Kill My Rep',
     title='Is It the Rep or the Territory? Five Questions for Sales Managers | Kill My Rep',
-    desc='Five questions that separate a performance problem from a territory, comp or pipeline problem wearing a performance costume. For sales managers. One minute, no names, nothing stored.',
-    ogdesc='Before you write them up, figure out what is actually wrong. Five questions, one minute, no names.',
-    h1='Before you write them up, figure out what is actually wrong.',
-    dek='Five questions that separate a performance problem from a territory, comp or pipeline problem wearing a performance costume. For managers. One minute. No names.',
+    desc='Five questions that separate a rep problem from a territory, skill or effort problem wearing a performance costume. For sales managers. One minute, no names, nothing stored.',
+    ogdesc='Before you write them up, figure out what you inherited. Five questions, one minute, no names.',
+    h1='Before you write them up, figure out what you inherited.',
+    dek='Five questions that separate a rep problem from a territory, skill or effort problem wearing a performance costume. For managers. One minute. No names.',
     cta='Kill my rep',
     questions=[
-        dict(k='customers', n='CUSTOMERS', q='Are they in front of customers every week, not just in internal meetings?'),
-        dict(k='pipeline', n='PIPELINE', q='Are they creating new pipeline this quarter, not just working what they inherited?'),
-        dict(k='territory', n='TERRITORY', q='Could a good rep make this number in this territory?'),
-        dict(k='comp', n='COMP', q='Is there still something meaningful for them to earn this year?'),
-        dict(k='belief', n='BELIEF', q='Do they still think the year can be won?'),
+        dict(k='patch', n='PATCH', q='Could a good rep make this number in this territory, on this plan?'),
+        dict(k='customers', n='CUSTOMERS', q='Do customers choose to spend time with them? Do they get called back?'),
+        dict(k='pipeline', n='PIPELINE', q="Is there pipeline that exists only because they're here?"),
+        dict(k='craft', n='CRAFT', q="When they're in front of a customer, can they actually sell?"),
+        dict(k='will', n='WILL', q='Are they still trying to win?'),
     ],
     bands=[
-        ('how', 'Five questions, four different problems', '''    <p class="lede">A team can be behind plan for a lot of reasons, and the fix for one makes another worse.</p>
-    <p><strong>CUSTOMERS: Are they in front of customers every week?</strong> Lots of internal meetings, marketing
-      projects and partner activity is how a rep stays busy without selling. If the calendar is full and the
-      customer meetings are not, that is the first thing to look at, and the easiest to fix.</p>
-    <p><strong>PIPELINE: Are they creating anything new?</strong> Some sellers have a perfectly respectable year
-      because the existing business is good. Separate what they inherited from what they are actually creating.
-      A rep who is making the number on renewals alone has a problem you will not see until next year.</p>
-    <p><strong>TERRITORY: Could a good rep make this number here?</strong> Be honest. If the answer is no, nothing
-      you do to the rep matters. Fix the patch or fix the number. Writing them up fixes neither, and it costs you
-      the rep.</p>
-    <p><strong>COMP: Is there still something to earn?</strong> Telling somebody to stay motivated does not do much
-      when the plan stopped paying in June. Look at whether there is still a meaningful check to chase this year.
-      If there is not, you are managing for next year whether you admit it or not.</p>
-    <p><strong>BELIEF: Do they think the year can be won?</strong> A rep who has decided the year is over stops
-      doing the things that would have saved it. The activity goes first, then the pipeline, then the rep. This
-      is a conversation, and it has to happen this week.</p>'''),
-        ('leave', 'Sometimes the answer is leave them alone', '''    <p>If they are producing and the forecast is good, do not invent a management problem because they do not
-      love one-on-ones. Figure out what visibility you actually need and leave the rest alone. The tool will tell
-      you that, too. It is the one verdict managers argue with, and it is usually right.</p>
-    <p>Nothing here is a substitute for the conversation. It is the five minutes before it, so you walk in knowing
-      which problem you are there to talk about.</p>'''),
+        ('how', 'Five questions, in this order', '''    <p class="lede">The first question a new manager asks is usually "what's wrong with these reps?" The better one
+      is "what exactly did I inherit?" The order below is the order to think in.</p>
+    <p><strong>PATCH: Could a good rep make this number here?</strong> Territory, account quality, installed base,
+      the quota, the comp plan, the competitive situation, who has had the patch before. If three people have
+      failed in the same patch, you probably do not have three bad reps. Look here first, and be honest, because
+      nothing you do to the rep matters if the answer is no.</p>
+    <p><strong>CUSTOMERS: Do customers choose them?</strong> Not meeting count. Five real customer conversations beat
+      fifteen calendar entries. Do customers call back, take the next step, introduce them upward? The weird rep
+      who skips internal meetings but has customers calling her may be worth more than the polished one with
+      immaculate CRM hygiene and no pull.</p>
+    <p><strong>PIPELINE: What exists because they're here?</strong> Separate inherited and renewal business from what
+      they created. Ask where the pipeline came from, how old it is, whether it is moving, and what customer
+      evidence makes it real. A seller can look fine today and leave a crater for next year.</p>
+    <p><strong>CRAFT: Can they actually sell?</strong> Prospect, run discovery, understand the customer's business,
+      qualify, get to power, build urgency, get through procurement, close. This is the question that separates
+      <em>can't do it</em> from <em>isn't doing it</em>, and those are completely different management problems. One
+      you coach. The other you manage.</p>
+    <p><strong>WILL: Are they still trying to win?</strong> Energy, ownership, follow-through, coachability. A rep who
+      has decided the year is over stops doing the things that would have saved it. The activity goes first, then
+      the pipeline, then the rep.</p>'''),
+        ('buckets', 'Four kinds of problem, and the one that isn\'t', '''    <p><strong>Good rep, bad situation.</strong> Fix the situation: the patch, the number, or the plan.</p>
+    <p><strong>Good rep, skill gap.</strong> Coach them. Name the skill and work it, one deal at a time.</p>
+    <p><strong>Capable rep, effort gap.</strong> Manage them. Expectations in writing, with dates.</p>
+    <p><strong>Wrong rep, reasonable situation.</strong> Start the process. Waiting does not make it kinder.</p>
+    <p><strong>They're fine.</strong> Leave them alone. Do not invent a management problem because they do not love
+      one-on-ones. Figure out what visibility you actually need and let them sell.</p>
+    <p>The mistake this tool exists to prevent is spending six months coaching a territory problem, or redesigning a
+      territory to avoid dealing with a performance problem. The manager's first job is not to make everybody look
+      alike. It is to figure out which differences matter to selling and which do not.</p>
+    <p>Do not decide who is good and who is bad in your first few weeks. Sit with each rep and go through five real
+      opportunities. Listen to how they describe the customer. You will learn more in that ninety minutes than in
+      a month of dashboards, and every one of those five deals can go through <a href="/">Kill My Deal</a> while
+      you sit there.</p>'''),
     ],
     faq=[
         ('Does anything I enter leave my device?', 'No. The five answers are scored in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result.'),
-        ('Why does it never ask the rep\'s name?', 'Because it does not need it, and because a tool that stores judgments about named people is a different kind of tool. Run it, have the conversation, and nothing about it is written down anywhere.'),
-        ('What do the verdicts mean?', "<strong>They're fine:</strong> leave them alone; decide what visibility you need. <strong>The patch:</strong> the territory cannot produce the number. <strong>The plan:</strong> comp stopped paying. <strong>Checked out:</strong> they have decided the year is over. <strong>The rep:</strong> the territory works and the plan pays; they are not doing the job. <strong>Not sure:</strong> too many sort-ofs; go find out."),
-        ('Can I run it on myself?', 'Yes, and sellers should. If the territory answer is no, <a href="/territory/">Kill My Territory</a> is the tool that makes that case to your manager.'),
+        ("Why does it never ask the rep's name?", 'Because it does not need it, and because a tool that stores judgments about named people is a different kind of tool. Run it, have the conversation, and nothing about it is written down anywhere.'),
+        ('What do the verdicts mean?', "<strong>They're fine:</strong> leave them alone. <strong>The situation:</strong> good rep, bad patch, number or plan; fix that. <strong>Coach them:</strong> good rep, skill gap. <strong>Manage them:</strong> capable rep, effort gap; expectations and dates. <strong>Wrong rep:</strong> reasonable situation, wrong person. <strong>Not sure:</strong> too many sort-ofs; sit in five of their deals and run it again."),
+        ('Why is PATCH the first question?', 'Because the order you ask in is the order you think in. A manager who starts with the territory, the number and the plan makes different decisions for the next six months than one who starts with the rep\'s calendar.'),
+        ('Can I run it on myself?', 'Yes, and sellers should. If the patch answer is no, <a href="/territory/">Kill My Territory</a> makes that case to your manager with the sizing behind it.'),
     ],
     config='''KillMy({
   slug: 'rep', name: 'Kill My Rep', url: 'https://killmydeal.com/rep/',
   questions: [
-    { k: 'customers', n: 'CUSTOMERS', q: 'Are they in front of customers every week, not just in internal meetings?' },
-    { k: 'pipeline',  n: 'PIPELINE',  q: 'Are they creating new pipeline this quarter, not just working what they inherited?' },
-    { k: 'territory', n: 'TERRITORY', q: 'Could a good rep make this number in this territory?' },
-    { k: 'comp',      n: 'COMP',      q: 'Is there still something meaningful for them to earn this year?' },
-    { k: 'belief',    n: 'BELIEF',    q: 'Do they still think the year can be won?' },
+    { k: 'patch',     n: 'PATCH',     q: 'Could a good rep make this number in this territory, on this plan?' },
+    { k: 'customers', n: 'CUSTOMERS', q: 'Do customers choose to spend time with them? Do they get called back?' },
+    { k: 'pipeline',  n: 'PIPELINE',  q: "Is there pipeline that exists only because they're here?" },
+    { k: 'craft',     n: 'CRAFT',     q: "When they're in front of a customer, can they actually sell?" },
+    { k: 'will',      n: 'WILL',      q: 'Are they still trying to win?' },
   ],
-  weights: { customers: 24, pipeline: 22, territory: 22, comp: 16, belief: 16 },
-  capOnNo: false,
-  // A diagnosis, not a score. Order matters: structural causes first.
+  weights: { patch: 24, customers: 20, pipeline: 20, craft: 20, will: 16 },
+  capOnNo: false, count: false,
+  // A diagnosis, not a score. The situation is checked before the person.
   verdict(a) {
     const no = (k) => a[k] === 'no', yes = (k) => a[k] === 'yes';
-    if (['customers','pipeline','territory','comp','belief'].every(yes))
-      return { label: "They're fine", cls: 'ready', attack: 'Leave them alone.', sub: "Don't invent a management problem because they don't love one-on-ones. Decide what visibility you actually need." };
-    if (no('territory'))
-      return { label: 'The patch', cls: 'prove', attack: "It's the territory, not the person.", sub: 'Nobody makes a number in a territory that cannot produce one. Fix the patch or fix the number. Writing them up fixes neither.' };
-    if (no('belief') && no('customers'))
-      return { label: 'Checked out', cls: 'dont', attack: "They've decided the year is over.", sub: 'The activity stopped because the hope did. The conversation about whether there is still a reason to care has to happen this week.' };
-    if (no('comp'))
-      return { label: 'The plan', cls: 'proof', attack: "It's the comp plan, not the person.", sub: "Telling somebody to stay motivated when the plan stopped paying does not work. Find something they can still win this year." };
-    if (no('customers') || no('pipeline'))
-      return { label: 'The rep', cls: 'dont', attack: "It's a performance problem.", sub: "The territory works and the plan pays. They're not doing the job. Get specific: which customers, which weeks, what has to happen by when." };
-    return { label: 'Not sure', cls: 'proof', attack: "You don't know yet.", sub: "You can't fix a problem you haven't named. Pick the weakest answer below and go find out this week." };
+    const K = ['patch','customers','pipeline','craft','will'];
+    if (K.every(yes))
+      return { label: "They're fine", cls: 'ready', attack: 'Leave them alone.', sub: "Don't invent a management problem because they don't love one-on-ones. Decide what visibility you actually need and let them sell." };
+    if (no('patch'))
+      return { label: 'The situation', cls: 'prove', attack: 'Good rep, bad situation.', sub: 'Nobody makes a number in a patch that cannot produce one. Fix the territory, the number or the plan. Writing them up fixes none of them.' };
+    if (no('craft') && no('will'))
+      return { label: 'Wrong rep', cls: 'dont', attack: 'Reasonable situation, wrong person.', sub: "They can't and they've stopped trying. Start the process. Waiting does not make it kinder, for them or for the team." };
+    if (no('craft'))
+      return { label: 'Coach them', cls: 'proof', attack: 'Good rep, skill gap.', sub: "They're trying and it isn't working. Name the skill, sit in their deals, work it one opportunity at a time." };
+    if (no('will') || no('customers') || no('pipeline'))
+      return { label: 'Manage them', cls: 'prove', attack: 'Capable rep, effort gap.', sub: "They can sell. They aren't. Expectations in writing, with dates, and a conversation about whether they still want this." };
+    return { label: 'Not sure', cls: 'proof', attack: "You don't know yet.", sub: 'Too many sort-ofs. Sit with them and go through five real opportunities, then run this again.' };
   },
-  count: false,
   askedBy: 'Your VP will ask',
   grill: {
-    customers: 'How many customer meetings did they have last week, and with whom?',
-    pipeline: 'What have they created this quarter that they did not inherit?',
-    territory: 'Has anyone ever made this number in that territory?',
-    comp: 'What are they still getting paid for this year?',
-    belief: 'Have you asked them whether they think the year is winnable?',
+    patch: 'Has anyone ever made this number in that territory?',
+    customers: 'Which customers would take their call tomorrow?',
+    pipeline: 'What have they created this year that they did not inherit?',
+    craft: 'Have you watched them run a customer meeting?',
+    will: 'Have you asked them whether they still want to do this?',
   },
   moves: {
-    customers: 'Ask for next week\\'s customer meetings by name. Not activity, meetings.',
+    patch: 'Size the patch yourself before the next one-on-one. If it cannot produce the number, say so up the chain.',
+    customers: 'Ask which three customers would take their call tomorrow, then call one.',
     pipeline: 'Split their pipeline into inherited and created. Put the created number on paper.',
-    territory: 'Size the patch yourself before the next one-on-one. If it cannot produce the number, say so up the chain.',
-    comp: 'Find the one thing still worth winning this year and put it in front of them.',
-    belief: 'Ask them directly, this week, whether they think the year can be won. Listen to the answer.',
+    craft: 'Sit in their next two customer meetings. Say nothing. Watch.',
+    will: 'Ask them directly, this week, whether they still want to do this. Listen to the answer.',
   },
-  noMove: 'Nothing. Tell them the forecast looks good and ask what they need.',
-  handoff: { overline: 'If the answer was territory', text: 'Send them Kill My Territory. It makes the case for them, without the argument.', href: '/territory/', label: 'Kill my territory' },
-  mark: { title: (s) => 'Not sure it\\'s ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I have managed the rep who wanted space, the one who thought the year was over, and the one whose territory could never have produced the number. Send me one line. No names." },
+  noMove: 'Nothing. Tell them the forecast looks good and ask what they need from you.',
+  handoff: (s) => s.label === 'The situation'
+    ? { overline: 'It is the patch', text: 'Send them Kill My Territory. It makes the case for them, with the sizing, without the argument.', href: '/territory/', label: 'Kill my territory' }
+    : { overline: 'Before you decide anything', text: "Sit with them and run their five biggest deals through Kill My Deal. Listen to how they answer. You'll know more in ninety minutes than in a month of dashboards.", href: '/', label: 'Kill my deal' },
+  mark: { title: (s) => 'Not sure it\\'s ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I have inherited the team nobody wanted, coached a territory problem for six months before I figured it out, and kept a misfit who turned out to be the best seller on the floor. Send me one line. No names." },
   dm: (s) => `Mark, ran a rep through Kill My Rep. Verdict: ${s.label.toLowerCase()}. Weakest answer was ${s.weak.n.toLowerCase()}. Not sure I've got the right problem. Worth 20 minutes?`,
 });''',
 )
@@ -295,7 +315,9 @@ PARTNER = dict(
     pull: 'Stop calling for two weeks. See what happens.',
   },
   noMove: 'Keep doing what you are doing, and write down why it works before someone changes it.',
-  handoff: { overline: 'Is there a deal inside this partnership?', text: 'Run it through Kill My Deal. A real partner deal survives the same five questions any deal does.', href: '/', label: 'Kill my deal' },
+  handoff: (s) => s.total >= 55
+    ? { overline: 'Is there a deal inside this partnership?', text: 'Run it through Kill My Deal. A real partner deal survives the same five questions any deal does.', href: '/', label: 'Kill my deal' }
+    : { overline: 'How much of your number is leaning on them?', text: 'If this partner is in your coverage math, the math is wrong. Kill My Pipeline shows you by how much.', href: '/pipeline/', label: 'Kill my pipeline' },
   mark: { title: (s) => 'Stuck on ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I ran partner sales at AWS for six years and sat on the other side of the table before that. I have seen every version of the partnership that looks great in the QBR and produces nothing. Send me one line. No partner names." },
   dm: (s) => `Mark, ran a partner through Kill My Partner. ${s.label[0] + s.label.slice(1).toLowerCase()}, ${s.provenText}, weakest is ${s.weak.n.toLowerCase()}. Not sure what to do with it. Worth 20 minutes?`,
 });''',
@@ -376,15 +398,270 @@ TERRITORY = dict(
     history: 'Find the last person who had the patch. Buy them coffee.',
   },
   noMove: 'Build the plan for the ten accounts. The territory is not the problem.',
-  handoff: { overline: 'Now the coverage math', text: 'The territory can produce. Kill My Pipeline tells you how much it has to.', href: '/pipeline/', label: 'Kill my pipeline' },
+  handoff: (s) => s.total >= 55
+    ? { overline: 'Now the coverage math', text: 'The territory can produce. Kill My Pipeline tells you how much it has to.', href: '/pipeline/', label: 'Kill my pipeline' }
+    : { overline: 'Take it to your manager', text: "Their version of this question is Kill My Rep, and its first question is the patch. Send them that with your sizing.", href: '/rep/', label: 'Kill my rep' },
   mark: { title: (s) => 'Stuck on ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I have inherited the patch nobody could grow and handed one out by mistake. If the verdict is bad, I can help you make the case. If it's good, I can help you make the plan. One line. No account names." },
   dm: (s) => `Mark, ran my territory through Kill My Territory. ${s.label[0] + s.label.slice(1).toLowerCase()}, ${s.provenText}, weakest is ${s.weak.n.toLowerCase()}. Want to make the case to my manager and not sure how. Worth 20 minutes?`,
 });''',
 )
 
-for t in (REP, PARTNER, TERRITORY):
+OLR = dict(
+    slug='olr', name='Kill My OLR',
+    title='OLR Prep for Amazon Managers: Will Your Case Survive Calibration? | Kill My OLR',
+    desc='Five questions that test the case you are about to make for a rep in OLR, before a room full of managers who do not know them tests it for you. No names, no ratings, nothing stored.',
+    ogdesc='Before you walk into OLR, try to kill your case. Five questions, then the room grills you. No names, no ratings.',
+    h1='Before you walk into OLR, try to kill your case.',
+    dek='Five questions that separate a case the room will accept from a story it will take apart. For managers with a rep to defend in calibration. One minute. No names, no ratings.',
+    cta='Kill my OLR',
+    questions=[
+        dict(k='receipts', n='RECEIPTS', q='Can you name three things they delivered this year, each with a number on it?'),
+        dict(k='ownership', n='OWNERSHIP', q="For the biggest one, can you say what wouldn't have happened without them?"),
+        dict(k='scope', n='SCOPE', q='Can you explain why that was work at their level, not strong execution a level down?'),
+        dict(k='how', n='HOW', q="For every leadership principle you'll cite, do you have one specific example?"),
+        dict(k='next', n='NEXT', q="Can you name the harder thing you'd hand them next year, and why?"),
+    ],
+    bands=[
+        ('room', 'What the room is actually testing', '''    <p class="lede">The hardest part of a talent review is not the form. It is explaining a human being in sixty
+      seconds to managers who don't know them, and having the explanation survive their questions.</p>
+    <p>Every calibration room runs the same way: you propose, they probe, the evaluation moves if you can't hold it.
+      The managers across the table are not hostile. They just haven't seen your rep's year, so all they can test is
+      your case. A case is receipts, ownership, scope, behavior and next scope. Everything else is adjectives.</p>
+    <p><strong>RECEIPTS: Three things, each with a number.</strong> Amazon's own self-review now asks for three to five
+      accomplishments with measurable outcomes. If you can't name three with a number on them, the room hears "had a
+      good year," and "had a good year" loses to anyone who brought a spreadsheet.</p>
+    <p><strong>OWNERSHIP: What wouldn't have happened without them?</strong> The first question in any room is how much of
+      the outcome belongs to this person versus the team, the partner, or the market. If you can answer that in one
+      sentence for the biggest win, the rest of the case is easier.</p>
+    <p><strong>SCOPE: Their level, not the level below.</strong> "Strong L5 execution" is the polite way a room says no to
+      an L6 case. What made the problem their-level sized: the ambiguity, the number of teams, the absence of a
+      playbook, the decisions nobody else was going to make?</p>
+    <p><strong>HOW: One example per principle.</strong> Leadership principles are behavioral standards, not compliments.
+      The room will ask for the example. If you'll cite four principles, bring four examples, and drop the ones you
+      can't back.</p>
+    <p><strong>NEXT: The harder thing.</strong> Potential is not "I think she's a future VP." It is the problem you would
+      hand them next year that you wouldn't have handed them last year, and what they've already done that makes you
+      sure. Scope, complexity, or impact, growing.</p>'''),
+        ('bias', 'Check yourself before the room does', '''    <p class="lede">The case that fails in calibration is usually a good rep with a manager who brought impressions.</p>
+    <p><strong>Recency.</strong> How much of your judgment comes from the last sixty days?</p>
+    <p><strong>Visibility.</strong> Would you reach the same conclusion if this person weren't in your meetings every week?</p>
+    <p><strong>Halo.</strong> Remove their biggest win. What does the rest of the year look like?</p>
+    <p><strong>Horns.</strong> Remove their worst month. Same question.</p>
+    <p><strong>Style.</strong> Are you evaluating impact, or whether they communicate the way you do?</p>
+    <p><strong>Context.</strong> Did a reorg, a manager change, a leave, or a territory change alter what could reasonably
+      be delivered? Say so first, before someone else does.</p>
+    <p>This tool grades your case, never your rep. It will not tell you a rating, predict one, or suggest one, and it
+      never asks for a name. What it will do is ask the questions the room is going to ask, before the room does.</p>'''),
+    ],
+    faq=[
+        ('Does anything I enter leave my device?', 'No. The five answers are scored in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result.'),
+        ('Does it predict a rating?', 'No, and it never will. It grades the quality of your case: ready, not yet, a story, or no receipts. Your organization already has machinery for the rating. What it does not have is a rehearsal.'),
+        ('What is OLR?', "Organization and Leadership Review: Amazon's annual talent review, where managers propose an evaluation for each of their people and then defend it in calibration with other managers, alongside promotion and development decisions. Kill My OLR is the rehearsal for the defending part."),
+        ('Is this only for Amazon?', 'OLR is Amazon\'s name for it, and that is where most of the people who use these tools have sat. But every calibration room asks the same five things, whatever the company calls it. Read "leadership principle" as your organization\'s behavioral standard and the tool works the same.'),
+        ('What does Grill me do?', 'It plays the room. Three hard questions about your weakest answer, one at a time, and you say honestly whether you can answer each. If you cannot answer two of three about ownership, that case is not ready, and better to learn that here than across the table.'),
+        ('Why does it never ask the rep\'s name?', 'Because it does not need it, and because a tool that stores judgments about named people is a different kind of tool. Run it, fix the case, and nothing about it is written down anywhere.'),
+    ],
+    config='''KillMy({
+  slug: 'olr', name: 'Kill My OLR', url: 'https://killmydeal.com/olr/',
+  questions: [
+    { k: 'receipts',  n: 'RECEIPTS',  q: 'Can you name three things they delivered this year, each with a number on it?' },
+    { k: 'ownership', n: 'OWNERSHIP', q: "For the biggest one, can you say what wouldn't have happened without them?" },
+    { k: 'scope',     n: 'SCOPE',     q: 'Can you explain why that was work at their level, not strong execution a level down?' },
+    { k: 'how',       n: 'HOW',       q: "For every leadership principle you'll cite, do you have one specific example?" },
+    { k: 'next',      n: 'NEXT',      q: "Can you name the harder thing you'd hand them next year, and why?" },
+  ],
+  weights: { receipts: 26, ownership: 22, scope: 20, how: 16, next: 16 },
+  verdict(a, total) {
+    if (total >= 75) return { label: 'Ready', cls: 'ready', attack: 'The room can test this. Let it.', sub: 'Bring the receipts in the order you would say them, and say the weakest one first.' };
+    if (total >= 55) return { label: 'Not yet', cls: 'proof', attack: 'Your conclusion may be right. You have not documented enough to defend it.', sub: 'One more receipt on the weakest answer and this holds.' };
+    if (total >= 35) return { label: 'A story', cls: 'prove', attack: "You're telling a story. The room wants receipts.", sub: 'Adjectives and impressions where outcomes, examples and artifacts should be.' };
+    return { label: 'No receipts', cls: 'dont', attack: 'This will not survive the first question.', sub: "It may still be a good rep. It isn't a case yet." };
+  },
+  askedBy: 'The room will ask',
+  grill: {
+    receipts: 'What are the three, with the numbers?',
+    ownership: 'How much of that outcome belongs to them versus the team around them?',
+    scope: 'What specifically makes that their-level work rather than strong execution a level down?',
+    how: 'Give me the example for that principle.',
+    next: 'What would you give them next year that you would not have given them last year?',
+  },
+  grillSet: {
+    receipts: ['You said they had a strong year. Which three things, and what were the numbers?', 'Remove the biggest win. What does the rest of the year look like?', 'Which of those three would still be true if the market had gone the other way?'],
+    ownership: ['What happened that would not have happened without them?', 'Who else touched that outcome, and what did they contribute?', "If I asked the partner or the customer who drove it, whose name would they say?"],
+    scope: ['What made this their-level work rather than strong execution one level down?', 'How many teams did they have to move without authority over any of them?', 'What decision did they make that nobody had made before?'],
+    how: ['Give me the example for the first principle you are citing.', 'And the second one. Different example.', 'Which principle would you drop because you cannot back it, and why did it get in the draft?'],
+    next: ['What harder problem have they already shown they can handle?', 'Where did they grow scope without being asked?', 'What feedback did they get this year, and what observable behavior changed?'],
+  },
+  grillBy: 'The room', grillLabel: 'Grill my case', fixLabel: 'Before the room',
+  grillLines: { clean: 'Your case would survive.', one: 'Your case would mostly survive. One hole left.', bad: 'Your case would not survive.', cleanSub: 'Three questions from the room, three answers. Say the weakest receipt first.' },
+  fix: {
+    receipts: 'Write the three things down, each with its number, before you write anything else. If you cannot get to three, the case is the problem, not the rep.',
+    ownership: 'For the biggest win, write one sentence starting "Without them, ...". If you cannot finish it, find the win where you can.',
+    scope: 'Write what made the problem their-level sized: the teams, the ambiguity, the missing playbook, the decision nobody else would make.',
+    how: 'Cut every principle you cannot attach an example to. A case with two backed principles beats one with six adjectives.',
+    next: 'Name the harder assignment you would give them and the thing they already did that makes you sure. Potential is evidence, not a feeling.',
+  },
+  moves: {
+    receipts: 'Write the three things, each with its number. If you cannot get to three, that is the finding.',
+    ownership: 'Write one sentence beginning "Without them, ..." for the biggest win.',
+    scope: 'Write what made it their-level work: teams moved, ambiguity, no playbook, the decision nobody else would make.',
+    how: 'Cut every principle without an example. Keep the ones you can prove.',
+    next: 'Name next year\\'s harder assignment and the evidence that says they can carry it.',
+  },
+  noMove: 'Put the weakest receipt first when you present. The room respects a case that leads with its own soft spot.',
+  handoff: (s) => s.total >= 75
+    ? { overline: 'The case is ready. Is the year set up?', text: "Next year's case starts now. Is the rep in a patch that can produce one? Kill My Rep asks that first.", href: '/rep/', label: 'Kill my rep' }
+    : { overline: 'The fastest receipt', text: 'A deal you watched them run. Sit in their next customer meeting and run it through Kill My Deal together. That is evidence for both of you.', href: '/', label: 'Kill my deal' },
+  mark: { title: (s) => 'Stuck on ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I have written the case that got taken apart in the room and the one that held, and the difference was never the rep. Send me one line about the case. No names, no ratings." },
+  dm: (s) => `Mark, ran a rep's OLR case through Kill My OLR. ${s.label[0] + s.label.slice(1).toLowerCase()}, ${s.provenText}, weakest is ${s.weak.n.toLowerCase()}. OLR is coming and I'm not sure it holds. Worth 20 minutes?`,
+  dmGrill: (s, missed) => `Mark, ran a rep's OLR case through Kill My OLR and could not answer ${missed} of the room's 3 ${s.weak.n.toLowerCase()} questions. Verdict was ${s.label.toLowerCase()}. Want to tell me what you'd go fix first?`,
+});''',
+)
+
+BRIEF = dict(
+    slug='brief', name='Kill My Brief',
+    title='Will Your Brief Survive the Room? Five Questions Before the Meeting | Kill My Brief',
+    desc='Five questions about the doc, the deck or the QBR you are about to present, then the room grills you. Finds the question you are hoping nobody asks, before the meeting does. Nothing uploaded, nothing stored.',
+    ogdesc="What's the question you're hoping nobody asks? Kill My Brief finds it before the meeting does.",
+    h1="What's the question you're hoping nobody asks?",
+    dek='Kill My Brief finds it before the meeting does. Five questions about the doc, the deck or the QBR you are about to present. One minute. Nothing uploaded.',
+    cta='Kill my brief',
+    questions=[
+        dict(k='point', n='POINT', q='Can you say in one sentence what you want them to decide, and why now?'),
+        dict(k='receipts', n='RECEIPTS', q="For the three claims the argument depends on, do you have evidence that isn't your own team's opinion?"),
+        dict(k='alternative', n='ALTERNATIVE', q='Have you dealt with the most credible other option, including doing nothing?'),
+        dict(k='hole', n='HOLE', q='Do you know the weakest assumption in your own argument, and who in the room will find it?'),
+        dict(k='ask', n='ASK', q='Is it completely clear what you need from them today, and who owns the next step?'),
+    ],
+    bands=[
+        ('how', 'The room is not attacking the document', '''    <p class="lede">It is attacking the assumptions underneath it. Every brief that dies in a meeting dies the same way:
+      somebody asks the question the author was hoping nobody would.</p>
+    <p><strong>POINT: One sentence, and why now.</strong> If you cannot say what you want the room to decide in one
+      sentence, the brief does not have a point yet, it has a topic. And "why now" is the second half of the
+      sentence, because a room that agrees with you and does nothing has not agreed with you.</p>
+    <p><strong>RECEIPTS: Evidence for the three claims it depends on.</strong> Not every claim. The three that, if
+      false, take the recommendation down with them. Data, customer evidence, financials, documented behavior. And
+      at least one piece that did not come from your own team, because the room discounts everything that did.</p>
+    <p><strong>ALTERNATIVE: The other option, including nothing.</strong> This is where most executive documents get
+      killed. Why this instead of doing nothing? Why build instead of buy? Why us instead of them? If the brief
+      does not answer the alternative someone in the room already prefers, that person will answer it for you.</p>
+    <p><strong>HOLE: Your own weakest assumption, and who will find it.</strong> The most important question in the
+      tool. If you know where the soft spot is, you can lead with it, and a room respects a brief that names its own
+      risk. If you don't, somebody whose incentives differ from yours will find it, and they will not be gentle.</p>
+    <p><strong>ASK: What you need today, and who owns what next.</strong> A shocking number of decks survive thirty
+      slides and end with no decision. Is this an FYI, a discussion, a recommendation or a decision? What resource,
+      commitment or approval do you need before you leave the room? Who owns the next action, by when?</p>'''),
+        ('sharks', 'Who is in the room', '''    <p class="lede">The questions change with the chair. After the verdict, pick who is across the table and
+      the tool asks what they would ask.</p>
+    <p><strong>Finance.</strong> What does it cost, what does it return, what is the downside case, and which single
+      assumption drives most of the economics.</p>
+    <p><strong>The executive.</strong> Why are you telling me this, what is the decision, why now, and what are you
+      asking me to do.</p>
+    <p><strong>The technical leader.</strong> What has to be true for this to work, what is the hardest dependency,
+      and what are you hand-waving.</p>
+    <p><strong>The sales leader.</strong> Has a customer actually said they want this, who pays, who decides, and
+      what is stopping the deal today.</p>
+    <p><strong>The skeptic.</strong> Whoever in the room is accountable for something you are not. They know
+      something you don't. Find out what before the meeting.</p>
+    <p>The brief lives in your head, not in a file. Nothing is uploaded, nothing is stored, and the tool never sees
+      a word of the document. It only asks whether you could answer for it.</p>'''),
+    ],
+    faq=[
+        ('Does anything I enter leave my device?', 'No. The five answers are scored in your browser. No account, no upload, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result.'),
+        ('What counts as a brief?', 'Anything you are about to argue for in front of people who can say no: a narrative doc, a strategy deck, a QBR, an account plan, a proposal, an investment memo, a capture review, or a recommendation you will make out loud. If it has a point and an ask, it is a brief.'),
+        ('Is this only for sales?', 'No. It started with sales reviews, and the sales leader is one of the sharks. But a six-pager in front of a VP dies exactly the way a QBR does: on the question the author hoped nobody would ask.'),
+        ('What does Grill me do?', 'It plays the room. Pick who is across the table, and it asks three of their questions about your weakest answer, one at a time. You say honestly whether you could answer. Better to find the hole here than in the meeting.'),
+    ],
+    config='''KillMy({
+  slug: 'brief', name: 'Kill My Brief', url: 'https://killmydeal.com/brief/',
+  questions: [
+    { k: 'point',       n: 'POINT',       q: 'Can you say in one sentence what you want them to decide, and why now?' },
+    { k: 'receipts',    n: 'RECEIPTS',    q: "For the three claims the argument depends on, do you have evidence that isn't your own team's opinion?" },
+    { k: 'alternative', n: 'ALTERNATIVE', q: 'Have you dealt with the most credible other option, including doing nothing?' },
+    { k: 'hole',        n: 'HOLE',        q: 'Do you know the weakest assumption in your own argument, and who in the room will find it?' },
+    { k: 'ask',         n: 'ASK',         q: 'Is it completely clear what you need from them today, and who owns the next step?' },
+  ],
+  weights: { point: 24, receipts: 22, hole: 20, alternative: 18, ask: 16 },
+  verdict(a, total) {
+    if (total >= 75) return { label: 'Room ready', cls: 'ready', attack: 'Your argument is clear and the claims have receipts.', sub: 'Lead with the hole. A room respects a brief that names its own risk.' };
+    if (total >= 55) return { label: 'A fight', cls: 'proof', attack: "Your recommendation may be sound. You've left an opening.", sub: 'They will find it. Better you find it first.' };
+    if (total >= 35) return { label: 'Shark food', cls: 'prove', attack: "You're relying on assumptions, vague impact, or an unclear ask.", sub: 'The room will not argue with you. It will just move on.' };
+    return { label: 'No point', cls: 'dont', attack: "There isn't a decision in this brief yet.", sub: 'Find the one sentence first. Everything else is formatting.' };
+  },
+  askedBy: 'The room will ask',
+  grill: {
+    point: "You have twenty seconds. What's the point?",
+    receipts: 'Where did that number come from?',
+    alternative: "Why shouldn't we just do nothing?",
+    hole: "What's the sentence in this brief you hope nobody challenges?",
+    ask: 'What exactly do you need from me today?',
+  },
+  grillSet: {
+    point: ["You have twenty seconds. What's the point?", 'I read the whole thing. What exactly are you recommending?', 'If I remember one sentence tomorrow, what should it be?'],
+    receipts: ['Where did that number come from? Actual, forecast, modeled, or anecdotal?', "Give me one piece of evidence that didn't come from your own team.", 'Revenue went up. And? Adoption grew. And? Customers asked. And?'],
+    alternative: ["Why shouldn't we just do nothing for six months?", "What's the cheapest reasonable alternative, and why is it wrong?", 'What would someone who disagrees with you recommend instead?'],
+    hole: ["What's the sentence in this brief you hope nobody challenges?", 'Which assumption, if false, takes the recommendation down with it?', 'Which number are you least confident in?'],
+    ask: ['Is this an FYI, a discussion, a recommendation, or a decision?', 'What exactly do you need from me before you leave this room?', 'Who owns the next action, and by when?'],
+  },
+  sharks: {
+    finance:   { name: 'Finance',              qs: { point: ['What does this cost?', "What's the return, and over what period?", "What's the downside case?"], receipts: ['Which assumption drives most of the economics?', 'Is that number actual, forecast, or modeled?', "What's the denominator?"], alternative: ['What does doing nothing cost us?', "What's the cheapest version of this that gets 80% of the value?", 'Why is that not good enough?'], hole: ['Which number would you least like me to check?', 'What happens to the case if that number is half?', 'What did you leave out of the model?'], ask: ['How much, when, and from whose budget?', 'What do you need me to approve today versus later?', 'What can you deliver with half of it?'] } },
+    executive: { name: 'The executive',        qs: { point: ['Why are you telling me this?', "What's the decision?", 'Why now?'], receipts: ['Who else believes this besides your team?', 'Has a customer said this, or have we inferred it?', 'How recent is that?'], alternative: ["What's the alternative you're not recommending, and why?", 'Why not wait a quarter?', 'Who else has tried this?'], hole: ["What's the question you're hoping I don't ask?", 'What would make you wrong?', "What's the thing you're least sure of?"], ask: ['What are you asking me to do?', 'What happens if I say no?', 'Who owns this after today?'] } },
+    technical: { name: 'The technical leader', qs: { point: ['What has to be true technically for this to work?', "What's the one-line architecture?", 'What are you hand-waving?'], receipts: ['Has this been built, or is this a diagram?', 'What did the prototype actually show?', "What's the failure mode you've seen so far?"], alternative: ['Why build instead of buy?', "What's the boring option, and why not that?", 'What did the last team that tried this learn?'], hole: ["What's the hardest dependency?", "What's the assumption about scale that nobody's tested?", 'What breaks first?'], ask: ['How many people, for how long?', 'What do you need from my team?', "What's the first milestone I can check?"] } },
+    sales:     { name: 'The sales leader',     qs: { point: ['What does this do for the number?', 'Which deals does this move, by name?', 'Why this quarter?'], receipts: ['Has a customer actually said they want this?', 'Who pays, and who decides?', "What's stopping the deal today?"], alternative: ["What do we lose if we sell what we've got?", "What's the competitor doing instead?", 'Why not a partner?'], hole: ["Which deal is this really about, and what's its problem?", "What's the customer objection you haven't answered?", "What's the price?"], ask: ['What do you need from sales?', 'When can I put it in a forecast?', 'Who carries the number?'] } },
+    skeptic:   { name: 'The skeptic',          qs: { point: ["What's the real reason you want this?", "What problem does this solve that we didn't have last year?", "Whose idea was this, and what do they get?"], receipts: ['What evidence would change your mind?', "What's the best argument against this?", 'Who disagrees, and why are they wrong?'], alternative: ['What did the alternative look like before you wrote it to lose?', 'Why is doing nothing not the answer?', 'What would you recommend if this were someone else\\'s idea?'], hole: ["What's the sentence you hope nobody challenges?", "What's the assumption you haven't been able to prove?", 'What are you not telling this room?'], ask: ['What are you actually asking for?', "What's the smallest commitment that tests this?", 'What will you show us in ninety days?'] } },
+  },
+  sharkPrompt: "Who's across the table?",
+  grillBy: 'The room', grillLabel: 'Grill my brief', fixLabel: 'Before the meeting',
+  grillLines: { clean: 'Your brief would survive.', one: 'Your brief would mostly survive. One hole left.', bad: 'Your brief would not survive.', cleanSub: 'Three questions, three answers. Lead with the hole anyway.' },
+  fix: {
+    point: 'Write the one sentence: what you want them to decide, and why now. Put it at the top. If it takes two sentences, you have two briefs.',
+    receipts: 'For each of the three load-bearing claims, write where the evidence came from and how old it is. Cut any claim that only your own team believes.',
+    alternative: 'Write the alternative someone in the room already prefers, in their words, then why it falls short. Include doing nothing.',
+    hole: 'Name the weakest assumption in one line and put it in the brief yourself, with what you would do if it proved false.',
+    ask: 'End with a decision box: what you need, from whom, by when, and who owns the next action.',
+  },
+  moves: {
+    point: 'Write the one sentence: what to decide, and why now. Put it first.',
+    receipts: 'For the three load-bearing claims, write the source and its date. Cut what only your team believes.',
+    alternative: "Write the alternative the room already prefers, in their words, and why it's not enough.",
+    hole: 'Name your weakest assumption in the brief before they do.',
+    ask: 'End with what you need, from whom, by when, and who owns what next.',
+  },
+  noMove: 'Lead with the hole. Say your weakest assumption out loud in the first minute; the room will spend the rest of the meeting on your terms.',
+  handoff: (s) => s.total >= 75
+    ? { overline: 'If the brief is about a deal', text: 'The room will ask whether the deal underneath it is real. Kill My Deal is that question.', href: '/', label: 'Kill my deal' }
+    : { overline: 'If the brief is about the number', text: 'Vague impact usually means the coverage math is missing. Kill My Pipeline puts a number on it.', href: '/pipeline/', label: 'Kill my pipeline' },
+  mark: { title: (s) => 'Stuck on the ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I have written the doc that got shredded and the one that got funded, and the difference was always one question I hadn't asked myself. Send me one line about the brief. No document, no company name." },
+  dm: (s) => `Mark, ran a brief through Kill My Brief. ${s.label[0] + s.label.slice(1).toLowerCase()}, ${s.provenText}, weakest is the ${s.weak.n.toLowerCase()}. Meeting is coming and I'm not sure it holds. Worth 20 minutes?`,
+  dmGrill: (s, missed) => `Mark, ran a brief through Kill My Brief and could not answer ${missed} of the room's 3 questions about the ${s.weak.n.toLowerCase()}. Verdict was ${s.label.toLowerCase()}. Want to tell me what you'd go fix first?`,
+});''',
+)
+
+for t in (REP, PARTNER, TERRITORY, OLR, BRIEF):
     os.makedirs(t['slug'], exist_ok=True)
     html = page(t)
     assert '—' not in html and '–' not in html, t['slug']
     open(f"{t['slug']}/index.html", 'w').write(html)
     print(t['slug'], len(html))
+
+
+# ── Structured data follows the page. The FAQPage JSON-LD on every page is rebuilt
+#    from the visible FAQ, so the two cannot drift again. ──
+import html as _html, glob as _glob
+def sync_faq(path):
+    s = open(path).read()
+    if 'id="faq"' not in s: return
+    faq = s[s.index('<section class="band" id="faq"'):]
+    faq = faq[:faq.index('</section>')]
+    qa = re.findall(r'<details class="exp"><summary>(.*?)</summary>\s*<div class="body">(.*?)</div></details>', faq, flags=re.S)
+    clean = lambda t: _html.unescape(re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', t)).strip())
+    ents = [{"@type": "Question", "name": clean(q), "acceptedAnswer": {"@type": "Answer", "text": clean(a)}} for q, a in qa]
+    m2 = re.search(r'<script type="application/ld\+json">(.*?)</script>', s, flags=re.S)
+    data = json.loads(m2.group(1))
+    for g in data.get('@graph', []):
+        if g.get('@type') == 'FAQPage': g['mainEntity'] = ents
+    s = s[:m2.start(1)] + '\n' + json.dumps(data, indent=2, ensure_ascii=False) + '\n' + s[m2.end(1):]
+    open(path, 'w').write(s)
+    print('faq synced', path, len(ents))
+for _p in ['index.html'] + sorted(_glob.glob('*/index.html')):
+    sync_faq(_p)

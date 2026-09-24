@@ -38,8 +38,14 @@
       "operatingSystem": "Any",
       "description": "Score a federal pursuit in five questions before your pipeline review. Runs entirely in the browser; no account, no CRM, no customer data.",
       "image": "https://killmydeal.com/card.jpg",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "author": { "@id": "https://killmydeal.com/#mark" }
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@id": "https://killmydeal.com/#mark"
+      }
     },
     {
       "@type": "Person",
@@ -48,24 +54,94 @@
       "jobTitle": "Federal sales advisor",
       "description": "Six years leading Federal Partner Sales at AWS; prior roles at F5, Red Hat, STEC and Virident; 20 years a Marine.",
       "url": "https://killmydeal.com/#mark",
-      "knowsAbout": ["Federal sales", "Pipeline qualification", "Pipeline coverage", "Sales management cadence", "Partner and channel sales", "Federal go-to-market"],
-      "sameAs": ["https://fedhoo.com", "https://www.linkedin.com/in/markflournoy/"]
+      "knowsAbout": [
+        "Federal sales",
+        "Pipeline qualification",
+        "Pipeline coverage",
+        "Sales management cadence",
+        "Partner and channel sales",
+        "Federal go-to-market"
+      ],
+      "sameAs": [
+        "https://fedhoo.com",
+        "https://www.linkedin.com/in/markflournoy/"
+      ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Does anything I enter leave my device?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. The five answers are scored by JavaScript in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result." } },
-        { "@type": "Question", "name": "Why doesn't Kill My Deal ask for the customer or dollar value?",
-          "acceptedAnswer": { "@type": "Answer", "text": "It does not need them, and asking would make the tool unusable for sellers whose employers restrict where pipeline detail can go. Qualification is about what you can prove, not who the customer is." } },
-        { "@type": "Question", "name": "What does it mean to kill a deal?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Trying to kill a deal means trying to disprove your own forecast before somebody else does. If it survives the five questions you have something you can defend; if it does not, you know exactly what evidence is missing. You are killing assumptions, not walking away from the customer." } },
-        { "@type": "Question", "name": "What is a bluebird in sales?",
-          "acceptedAnswer": { "@type": "Answer", "text": "A bluebird is a deal nobody worked for: an inbound call, a warm introduction, a requirement that appears out of nowhere. They feel like luck, which is why they get forecast on feelings instead of facts. Most of them are dead. The five questions tell you which kind you are holding." } },
-        { "@type": "Question", "name": "Is Kill My Deal AI?",
-          "acceptedAnswer": { "@type": "Answer", "text": "No. It is a fixed rubric: each answer maps to a number, the numbers are weighted, caps apply, and thresholds produce the verdict. The weights are visible in the page source." } },
-        { "@type": "Question", "name": "What do the four verdicts mean?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Healthy means it survived the questions and you should bring the proof. Hopium means you believe it but have not proved it. On life support means something important is still an assumption. Kill it means this is a conversation, not a deal." } }
+        {
+          "@type": "Question",
+          "name": "Does anything I enter leave my device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your answers stay in your browser. The scoring is JavaScript running on this page: no account, no database, no CRM connection, no API call. The site counts page views with Google Analytics, and that is all it sends. It never sends your answers, and it never sends the part of the link where a shared verdict lives. If you press Share, your five answers go into the link so you can send the result to somebody, and that is the only time they leave the page."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why doesn't it ask for the customer or the dollar value?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Because it doesn't need them, and asking would make the tool unusable for anyone whose employer restricts where pipeline detail can go. Qualification is about what you can prove, not who the customer is."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do you mean by \"kill\" the deal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Trying to kill a deal means trying to disprove your own forecast before somebody else does. If it survives the five questions, you have something you can defend. If it doesn't, you know exactly what evidence is missing. You are killing assumptions, not walking away from the customer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a bluebird in sales?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A deal nobody worked for: an inbound call, a warm introduction, a requirement that appears out of nowhere. They feel like luck, which is why they get forecast on feelings instead of facts. Most of them are dead. The five questions tell you which kind you are holding."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this rigorous enough to argue with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is a qualification heuristic, not a forecast model. Nobody has calibrated these weights against thousands of closed deals, and this tool has never seen your pipeline. What it does do is ask the same five questions every time, apply the same caps, and show its arithmetic, which is more consistency than most pipeline reviews manage. Use it to find the hole, not to set the number."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the score calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each answer maps to a number (yes 92, sort of 50, no 8), weighted money 26, power 22, customer 20, path 16, now 16. Three caps apply when money, power or customer is a flat no, and no deal with any no can score above 74. Thresholds: healthy from 75, hopium from 55, on life support from 35, kill it below. The number you see on the card is simpler: how many of the five you can defend, with a sort of counting as a half."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this AI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. It's a fixed rubric: each answer maps to a number, the numbers are weighted, three caps apply, and thresholds produce the verdict. The weights are visible in the page source. A language model given five words would invent context, and confident wrong advice is worse than none."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What do the four verdicts mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Healthy: it survived; bring the proof. Hopium: you believe it, you haven't proved it. On life support: something important is still an assumption. Kill it: this is a conversation, not a deal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does Grill me do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It plays the manager. Three hard questions drawn from your weakest answer, one at a time, and you say honestly whether you can answer each one. If you cannot answer two of three about the money, that deal does not belong in commit yet. Better to learn that here than in the meeting."
+          }
+        }
       ]
     }
   ]
@@ -78,8 +154,8 @@
 
 <div class="wrap">
   <header class="appbar">
-    <button class="logo" id="logoHome" aria-label="Kill My Deal, start over"><picture><source srcset="bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="bluebird.png" alt="" width="38" height="32"></picture> Kill My Deal</button>
-    <details class="menu"><summary><span class="chip">Tools ▾</span></summary><div class="menu-list"><a href="/" class="current">Kill My Deal<small>Is this deal real?</small></a><a href="/pipeline/">Kill My Pipeline<small>Do I have enough real pipeline?</small></a><a href="/rep/">Kill My Rep<small>Is it the rep, or the patch?</small></a><a href="/partner/">Kill My Partner<small>Is this partner real, or a logo?</small></a><a href="/territory/">Kill My Territory<small>Can this patch make the number?</small></a></div></details>
+    <button class="logo" id="logoHome" aria-label="Kill My Deal, start over"><picture><source srcset="bird-sm-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="bird-sm.png" alt="" width="38" height="32"></picture> Kill My Deal</button>
+    <details class="menu"><summary><span class="chip">Tools ▾</span></summary><div class="menu-list"><div class="menu-group">For sellers</div><a href="/" class="current">Kill My Deal<small>Before you put it in commit</small></a><a href="/territory/">Kill My Territory<small>Month one in a new patch</small></a><div class="menu-group">For managers</div><a href="/pipeline/">Kill My Pipeline<small>Quarterly, before the review</small></a><a href="/rep/">Kill My Rep<small>When a rep is worrying you</small></a><a href="/partner/">Kill My Partner<small>Before you renew the partnership</small></a><a href="/olr/">Kill My OLR<small>Review season</small></a><div class="menu-group">For anyone</div><a href="/brief/">Kill My Brief<small>Before a meeting where someone can say no</small></a></div></details>
   </header>
   <div id="screen" aria-live="polite">
     <h1>Before you commit it, try to kill it.</h1>
@@ -88,6 +164,23 @@
     <button class="btn btn-primary btn-lg btn-full" id="prep" type="button">Kill my deal</button>
     <p class="pillars">Customer · Money · Power · Path · Now</p></div>
 </div>
+
+<section class="band" id="tools" aria-labelledby="tools-h">
+  <div class="band-inner">
+    <h2 id="tools-h">Seven places hope gets in</h2>
+    <p class="lede">Same five-question idea, pointed at the moments a quarter goes wrong. Use the one for the day you're having.</p>
+    <p><strong>Before you put it in commit.</strong> <a href="/">Kill My Deal</a>. Is this deal real?</p>
+    <p><strong>Month one in a new patch.</strong> <a href="/territory/">Kill My Territory</a>. Can it make the number, or are
+      you being asked to grow where nobody could?</p>
+    <p><strong>Before a meeting where someone can say no.</strong> <a href="/brief/">Kill My Brief</a>. What's the question
+      you're hoping nobody asks?</p>
+    <p><strong>Monday, when a rep is worrying you.</strong> <a href="/rep/">Kill My Rep</a>. Is it the rep, the patch, a
+      skill gap, or an effort gap?</p>
+    <p><strong>Quarterly.</strong> <a href="/pipeline/">Kill My Pipeline</a>, because 3X is a win rate in disguise, and
+      <a href="/partner/">Kill My Partner</a>, because a logo on a slide is not a partner.</p>
+    <p><strong>Review season.</strong> <a href="/olr/">Kill My OLR</a>. Will your case for them survive the room?</p>
+  </div>
+</section>
 
 <section class="band" id="how" aria-labelledby="how-h">
   <div class="band-inner">
@@ -199,8 +292,8 @@
       the tools on this site do for one deal and one pipeline. It's also most of what I do.</p>
 
     <h3>Three ways to work together</h3>
-    <p><strong>Talk it through.</strong> 20 minutes, free. Bring a deal, a pipeline, or a rep you can't figure
-      out. I'll ask a few questions and tell you what I'd look at first. Sometimes the answer is "I wouldn't
+    <p><strong>Talk it through.</strong> 20 minutes, free. Bring a deal, a pipeline, a territory you've
+      been handed, or a rep you can't figure out. I'll ask a few questions and tell you what I'd look at first. Sometimes the answer is "I wouldn't
       change much." That's useful too.</p>
     <p><strong>Work through one problem.</strong> 90 minutes, paid. One issue, properly: a deal, a territory,
       a partner, a capture plan, a seller. You get a short write-up afterward so there's something to work from.</p>
@@ -212,21 +305,6 @@
     </div>
     <p class="fine" style="text-align:center;margin-top:12px;">Free, 20 minutes, no pitch. If I don't think I can help, I'll tell you.
       I also build <a href="https://fedhoo.com" target="_blank" rel="noopener">fedhoo</a>, a federal market research tool.</p>
-  </div>
-</section>
-
-<section class="band" id="tools" aria-labelledby="tools-h">
-  <div class="band-inner">
-    <h2 id="tools-h">Other things worth killing</h2>
-    <p class="lede">Same five-question idea, pointed at the other places a quarter goes wrong.</p>
-    <p><a href="/pipeline/"><strong>Kill My Pipeline.</strong></a> For managers. 3X is a rule of thumb; your win
-      rate says what you actually need. Target, pipeline, win rate, and the gap.</p>
-    <p><a href="/rep/"><strong>Kill My Rep.</strong></a> For managers. Before you write them up, find out whether
-      it is the rep, the territory, the comp plan, or the year they have given up on.</p>
-    <p><a href="/partner/"><strong>Kill My Partner.</strong></a> For partner managers. Is this partner selling
-      with you, or on your slide?</p>
-    <p><a href="/territory/"><strong>Kill My Territory.</strong></a> For sellers. Can the patch make the number,
-      or are you being asked to grow where nobody could?</p>
   </div>
 </section>
 
@@ -283,7 +361,8 @@
 
 <footer class="sitefoot">
   <p>Kill My Deal, <a href="/pipeline/">Kill My Pipeline</a>, <a href="/rep/">Kill My Rep</a>,
-    <a href="/partner/">Kill My Partner</a> and <a href="/territory/">Kill My Territory</a> are free tools by
+    <a href="/partner/">Kill My Partner</a>, <a href="/territory/">Kill My Territory</a>,
+    <a href="/olr/">Kill My OLR</a> and <a href="/brief/">Kill My Brief</a> are free tools by
     <a href="https://www.linkedin.com/in/markflournoy/" target="_blank" rel="noopener">Mark Flournoy</a>,
     who also builds <a href="https://fedhoo.com" target="_blank" rel="noopener">fedhoo</a>.</p>
   <p>Not affiliated with the U.S. government.</p>
@@ -295,7 +374,7 @@ const esc = (s) => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g
 const kmd = (n) => { if (typeof window.kmd === 'function') window.kmd(n); else (window.kmdQ = window.kmdQ || []).push(n); };
 const el = () => document.getElementById('screen');
 // Every screen change fades up. Re-trigger the animation by toggling the class.
-const show = (html) => { const e = el(); e.classList.remove('enter'); e.innerHTML = html; void e.offsetWidth; e.classList.add('enter'); };
+const show = (html) => { const e = el(); e.classList.remove('enter'); e.innerHTML = html; void e.offsetWidth; e.classList.add('enter'); focusScreen(e); };
 
 /* ── Five things ── */
 const P = [
@@ -357,6 +436,12 @@ function shareLink() {
 }
 
 /* ── The Ask ── */
+// Calendly prefill: a1 answers the first question on the booking form.
+// Multiples and words only. Never a name, never a dollar figure.
+function bookLink(medium, note) {
+  return 'https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=' + medium + '&utm_content=after_score&a1=' + encodeURIComponent(note);
+}
+function bookNote(s) { return `Kill My Deal: ${s.label.toLowerCase()}, ${s.provenText}, weakest ${s.weak.n.toLowerCase()}.`; }
 function dmText(s) {
   const w = s.weak.n;
   const v = s.label[0] + s.label.slice(1).toLowerCase();
@@ -480,10 +565,38 @@ function score(a) {
 /* ── state ── */
 let answers = {}, grillStep = 0, grillOuch = 0, lastScore = null;
 // Clearing answers must also clear a shared hash, or a fresh run inherits someone else's verdict on reload.
-const clearHash = () => { try { history.replaceState(null, '', location.pathname); } catch {} };
+const clearHash = () => { try { history.replaceState(history.state, '', location.pathname); } catch {} };
+/* ── shared behaviors: history, focus, native share, menu ── */
+let restoring = false;
+// Each screen is a history entry, so the phone's back gesture steps back a screen instead of leaving.
+function nav(st) {
+  if (restoring) return;
+  const cur = history.state && history.state.kmd;
+  const same = cur && JSON.stringify(cur) === JSON.stringify(st);
+  try { (same ? history.replaceState : history.pushState).call(history, { kmd: st }, '', location.href); } catch {}
+}
+// Focus the new screen's heading so keyboard and screen-reader users land where the content is.
+function focusScreen(e) {
+  const f = e.querySelector('.question') || e.querySelector('.question-lg') || e.querySelector('.verdict') || e.querySelector('h1');
+  if (f) { f.setAttribute('tabindex', '-1'); try { f.focus({ preventScroll: true }); } catch {} }
+}
+// On a phone, Share opens the share sheet (Slack, Teams, Messages). Elsewhere it copies.
+function shareOut(btn, block, title) {
+  const lines = block.split('\n'); const url = lines[lines.length - 1]; const text = lines.slice(0, -1).join('\n').trim();
+  const touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  const copy = () => copyText(block).then(() => { btn.textContent = 'Copied ✓'; }).catch(() => { btn.textContent = "Couldn't copy"; });
+  if (navigator.share && touch) {
+    navigator.share({ title, text, url }).then(() => { btn.textContent = 'Shared ✓'; }).catch((e) => { if (!e || e.name !== 'AbortError') copy(); });
+  } else copy();
+}
+document.addEventListener('click', (e) => { document.querySelectorAll('details.menu[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('details.menu[open]').forEach(d => { d.open = false; d.querySelector('summary').focus(); }); });
+
 
 /* ── screens ── */
+function intro() { show(INTRO_HTML); document.getElementById('prep').onclick = () => ask(0); }
 function home() {
+  nav(['h']);
   answers = {}; clearHash();
   show(INTRO_HTML);
   document.getElementById('prep').onclick = () => ask(0);
@@ -492,6 +605,7 @@ function home() {
 
 function ask(i) {
   if (i === 0 && !answers.customer) kmd('start');
+  nav(['q', i]);
   const p = P[i];
   show(`
     <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="${P.length}" aria-valuenow="${i + 1}">${P.map((_, j) => `<i class="${j <= i ? 'done' : ''}"></i>`).join('')}</div>
@@ -509,7 +623,7 @@ function ask(i) {
     else setTimeout(result, 120);
   });
   const bk = document.getElementById('back');
-  if (bk) bk.onclick = () => ask(i - 1);
+  if (bk) bk.onclick = () => history.back();
   window.scrollTo({ top:0 });
 }
 
@@ -528,6 +642,7 @@ function plainWhy(s) {
 function result(shared) {
   const s = score(answers);
   lastScore = s;
+  nav(['r']);
   kmd(shared ? 'verdict_shared' : 'verdict');
 
   try { 
@@ -576,9 +691,7 @@ function result(shared) {
     // Sharing is the one moment the verdict is allowed into the address bar.
     try { history.replaceState(null, '', '#' + encodeAnswers()); } catch {}
     kmd('share');
-    copyText(shareBlock(s))
-      .then(() => { btn.textContent = 'Copied ✓'; })
-      .catch(() => { btn.textContent = "Couldn't copy"; });
+    shareOut(btn, shareBlock(s), 'Kill My Deal');
   };
   
   mountMark();
@@ -589,6 +702,7 @@ function result(shared) {
 function grill() {
   const qs = GRILL[lastScore.weak.k];
   if (grillStep >= 3) return grillDone();
+  nav(['g', grillStep, grillOuch]);
   show(`
     <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="${grillStep + 1}">${[0,1,2].map(j => `<i class="${j <= grillStep ? 'done' : ''}"></i>`).join('')}</div>
     <span class="overline">Your manager · question ${grillStep + 1} of 3</span>
@@ -606,6 +720,7 @@ function grill() {
 }
 
 function grillDone() {
+  nav(['gd', grillOuch]);
   const w = lastScore.weak;
   const verdict = grillOuch === 0 ? 'You would survive the review.'
     : grillOuch === 1 ? 'You would mostly survive. One hole left.'
@@ -644,7 +759,7 @@ function mountMark(text) {
     <div class="preview mono" title="Tap to select">${esc(dm)}</div>
     <button class="btn btn-primary btn-lg btn-full" id="dmBtn" type="button" style="margin-top:14px;">Copy this &amp; DM me</button>
     <div class="btn-row center" style="margin-top:4px;">
-      <a class="btn btn-text" href="https://calendly.com/markflournoy/chat-with-mark?utm_source=killmydeal&utm_medium=result&utm_content=after_score"
+      <a class="btn btn-text" href="${bookLink('result', bookNote(s))}"
          target="_blank" rel="noopener">Or book 20 minutes</a>
     </div>
     <p class="fine" style="text-align:center;margin:4px 0 0;">Free either way. I answer LinkedIn faster than email.</p>`;
@@ -655,10 +770,25 @@ function mountMark(text) {
 }
 
 /* Boot */
-window.KMD_BUILD = '2026-09-22.0900'; // console check for what's deployed
+window.KMD_BUILD = '2026-09-29.0900'; // console check for what's deployed
 const INTRO_HTML = el().innerHTML;
+try { history.replaceState({ kmd: ['h'] }, '', location.href); } catch {}
 const fromHash = readHash();
 if (fromHash) { Object.assign(answers, fromHash); result(true); }
+// A shared link opened in a tab that already has the site.
+window.addEventListener('hashchange', () => { const h = readHash(); if (h) { answers = {}; Object.assign(answers, h); result(true); } });
+window.addEventListener('popstate', (e) => {
+  const st = e.state && e.state.kmd; restoring = true;
+  const complete = P.every(p => answers[p.k]);
+  try {
+    if (!st || st[0] === 'h') intro();
+    else if (st[0] === 'q') ask(st[1]);
+    else if (st[0] === 'r' && complete) result(false);
+    else if (st[0] === 'g' && lastScore) { grillStep = st[1]; grillOuch = st[2]; grill(); }
+    else if (st[0] === 'gd' && lastScore) { grillStep = 3; grillOuch = st[1]; grillDone(); }
+    else intro();
+  } finally { restoring = false; }
+});
 const prepBtn = document.getElementById('prep');
 if (prepBtn) prepBtn.onclick = () => ask(0);
 document.getElementById('logoHome').onclick = home;

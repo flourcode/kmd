@@ -38,17 +38,55 @@
       "operatingSystem": "Any",
       "description": "Five questions that separate a partner who sells with you from a logo on a slide. For partner managers, alliance leads and anyone who owns a co-sell number. One minute, no names, nothing stored.",
       "image": "https://killmydeal.com/card-partner.jpg",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "isPartOf": { "@type": "WebSite", "name": "Kill My Deal", "url": "https://killmydeal.com/" },
-      "author": { "@id": "https://killmydeal.com/#mark" }
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Kill My Deal",
+        "url": "https://killmydeal.com/"
+      },
+      "author": {
+        "@id": "https://killmydeal.com/#mark"
+      }
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-{"@type": "Question", "name": "Does anything I enter leave my device?", "acceptedAnswer": {"@type": "Answer", "text": "No. The five answers are scored in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result."}},
-{"@type": "Question", "name": "Does this work for the partner running it on me?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, and that is the best use. Run it on each other, compare, and the gap between the two verdicts is the conversation you should have been having."}},
-{"@type": "Question", "name": "What about a partner that is strategic but not producing yet?", "acceptedAnswer": {"@type": "Answer", "text": "Then the answer to SOURCED and ACCOUNTS is no, and the tool will say so. Strategic is what people call a partnership before it has produced anything. The question is how long you are willing to say it."}},
-{"@type": "Question", "name": "Can I use it on a distributor or an SI?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The questions do not care which direction the paper flows. They care whether anyone on the other side is accountable for a deal with your name on it."}}
+        {
+          "@type": "Question",
+          "name": "Does anything I enter leave my device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The five answers are scored in your browser. No account, no CRM connection, no API call. The site counts page views with Google Analytics and never sends your answers. Nothing else leaves the page unless you choose to share a result."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this work for the partner running it on me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, and that is the best use. Run it on each other, compare, and the gap between the two verdicts is the conversation you should have been having."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What about a partner that is strategic but not producing yet?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Then the answer to SOURCED and ACCOUNTS is no, and the tool will say so. Strategic is what people call a partnership before it has produced anything. The question is how long you are willing to say it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it on a distributor or an SI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The questions do not care which direction the paper flows. They care whether anyone on the other side is accountable for a deal with your name on it."
+          }
+        }
       ]
     }
   ]
@@ -61,8 +99,8 @@
 
 <div class="wrap">
   <header class="appbar">
-    <button class="logo" id="logoHome" type="button" aria-label="Kill My Partner, start over"><picture><source srcset="../bluebird-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bluebird.png" alt="" width="38" height="32"></picture> Kill My Partner</button>
-    <details class="menu"><summary><span class="chip">Tools ▾</span></summary><div class="menu-list"><a href="/">Kill My Deal<small>Is this deal real?</small></a><a href="/pipeline/">Kill My Pipeline<small>Do I have enough real pipeline?</small></a><a href="/rep/">Kill My Rep<small>Is it the rep, or the patch?</small></a><a href="/partner/" class="current">Kill My Partner<small>Is this partner real, or a logo?</small></a><a href="/territory/">Kill My Territory<small>Can this patch make the number?</small></a></div></details>
+    <button class="logo" id="logoHome" type="button" aria-label="Kill My Partner, start over"><picture><source srcset="../bird-sm-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bird-sm.png" alt="" width="38" height="32"></picture> Kill My Partner</button>
+    <details class="menu"><summary><span class="chip">Tools ▾</span></summary><div class="menu-list"><div class="menu-group">For sellers</div><a href="/">Kill My Deal<small>Before you put it in commit</small></a><a href="/territory/">Kill My Territory<small>Month one in a new patch</small></a><div class="menu-group">For managers</div><a href="/pipeline/">Kill My Pipeline<small>Quarterly, before the review</small></a><a href="/rep/">Kill My Rep<small>When a rep is worrying you</small></a><a href="/partner/" class="current">Kill My Partner<small>Before you renew the partnership</small></a><a href="/olr/">Kill My OLR<small>Review season</small></a><div class="menu-group">For anyone</div><a href="/brief/">Kill My Brief<small>Before a meeting where someone can say no</small></a></div></details>
   </header>
   <div id="screen">
     <h1>Before you renew the partnership, try to kill it.</h1>
@@ -133,8 +171,8 @@
       the tools on this site do for one deal and one pipeline. It's also most of what I do.</p>
 
     <h3>Three ways to work together</h3>
-    <p><strong>Talk it through.</strong> 20 minutes, free. Bring a deal, a pipeline, or a rep you can't figure
-      out. I'll ask a few questions and tell you what I'd look at first. Sometimes the answer is "I wouldn't
+    <p><strong>Talk it through.</strong> 20 minutes, free. Bring a deal, a pipeline, a territory you've
+      been handed, or a rep you can't figure out. I'll ask a few questions and tell you what I'd look at first. Sometimes the answer is "I wouldn't
       change much." That's useful too.</p>
     <p><strong>Work through one problem.</strong> 90 minutes, paid. One issue, properly: a deal, a territory,
       a partner, a capture plan, a seller. You get a short write-up afterward so there's something to work from.</p>
@@ -146,21 +184,6 @@
     </div>
     <p class="fine" style="text-align:center;margin-top:12px;">Free, 20 minutes, no pitch. If I don't think I can help, I'll tell you.
       I also build <a href="https://fedhoo.com" target="_blank" rel="noopener">fedhoo</a>, a federal market research tool.</p>
-  </div>
-</section>
-
-<section class="band" id="tools" aria-labelledby="tools-h">
-  <div class="band-inner">
-    <h2 id="tools-h">Other things worth killing</h2>
-    <p class="lede">Same five-question idea, pointed at the other places a quarter goes wrong.</p>
-    <p><a href="/pipeline/"><strong>Kill My Pipeline.</strong></a> For managers. 3X is a rule of thumb; your win
-      rate says what you actually need. Target, pipeline, win rate, and the gap.</p>
-    <p><a href="/rep/"><strong>Kill My Rep.</strong></a> For managers. Before you write them up, find out whether
-      it is the rep, the territory, the comp plan, or the year they have given up on.</p>
-    <p><a href="/partner/"><strong>Kill My Partner.</strong></a> For partner managers. Is this partner selling
-      with you, or on your slide?</p>
-    <p><a href="/territory/"><strong>Kill My Territory.</strong></a> For sellers. Can the patch make the number,
-      or are you being asked to grow where nobody could?</p>
   </div>
 </section>
 
@@ -187,7 +210,7 @@
 <script src="../kill.js"></script>
 <script>
 'use strict';
-window.KMD_BUILD = '2026-09-22.0900';
+window.KMD_BUILD = '2026-09-29.0900';
 KillMy({
   slug: 'partner', name: 'Kill My Partner', url: 'https://killmydeal.com/partner/',
   questions: [
@@ -220,7 +243,9 @@ KillMy({
     pull: 'Stop calling for two weeks. See what happens.',
   },
   noMove: 'Keep doing what you are doing, and write down why it works before someone changes it.',
-  handoff: { overline: 'Is there a deal inside this partnership?', text: 'Run it through Kill My Deal. A real partner deal survives the same five questions any deal does.', href: '/', label: 'Kill my deal' },
+  handoff: (s) => s.total >= 55
+    ? { overline: 'Is there a deal inside this partnership?', text: 'Run it through Kill My Deal. A real partner deal survives the same five questions any deal does.', href: '/', label: 'Kill my deal' }
+    : { overline: 'How much of your number is leaning on them?', text: 'If this partner is in your coverage math, the math is wrong. Kill My Pipeline shows you by how much.', href: '/pipeline/', label: 'Kill my pipeline' },
   mark: { title: (s) => 'Stuck on ' + s.weak.n.toLowerCase() + '?', body: "I'm Mark. I ran partner sales at AWS for six years and sat on the other side of the table before that. I have seen every version of the partnership that looks great in the QBR and produces nothing. Send me one line. No partner names." },
   dm: (s) => `Mark, ran a partner through Kill My Partner. ${s.label[0] + s.label.slice(1).toLowerCase()}, ${s.provenText}, weakest is ${s.weak.n.toLowerCase()}. Not sure what to do with it. Worth 20 minutes?`,
 });
