@@ -3,7 +3,7 @@
 Everything needed to maintain, extend or rebuild this. One directory, two
 pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-29.0900**
+**Current build: 2026-09-30.0900**
 
 | Path | What |
 | --- | --- |
@@ -550,28 +550,34 @@ period, qualified win rate; behind *Go deeper*: average deal size, sellers,
 closed so far, months in / months left. Sales-cycle days were cut — nine
 fields is not a one-minute tool.
 
-**It runs like the question tools now: one number per screen.** Step 1
-target, step 2 pipeline (each prefilled with an example and selected, so a
-visitor can tap Next twice and see how it works, or type over it), then the
-verdict at a 3X assumption. The verdict card carries a *meta* line saying
-what it was computed at. Under it, the flip card: *Now kill the 3X
-assumption*, with three chips (Federal about 20%, SaaS about 25%, A third)
-and a field for a real number. Tapping one re-renders the verdict in place
-and the meta line records the flip: *At your 20% win rate. 3X said covered.*
-That sentence is the product. Deal size, sellers ("Just me" for a seller
-running it alone) and closed-so-far live behind *Make it concrete* and
-update on change. *Change the numbers* returns to step 1 with values kept.
+**It is a calculator, not a question set, and must stay one.** Managers and
+sellers want to change a field and watch the gap move. A two-step stepper was
+tried in September 2026 and reverted: it made the one numeric tool behave
+like the question tools and hid the numbers people came for. Every field is
+visible (target, pipeline, win rate with Federal / SaaS / A third chips, deal
+size, sellers, closed so far, a Dec 31 / Sep 30 year-end chip, *Just me*),
+prefilled with an example, and everything updates on input. Money fields
+tidy themselves on blur ("10m" becomes "$10M"); focusing a field selects it
+so typing over the example is one step.
 
-**The calendar fills itself.** Months in and months left are computed from
-today's date and a year-end chip, *Dec 31* (default, the audience is on a
-calendar year) or *Sep 30*. The clock card says *Your year has N days left.
-Your federal customers' money expires in M.* On the Sep 30 setting it says
-only the fiscal days left. Nobody types a month.
+**The light bulb is the example and the bar.** The page opens on $10M
+target, $32M pipeline, 25% win rate: 3.2X, which 3X calls covered and the win
+rate calls *Hopium, $8M short*. The verdict's attack line is that sentence
+(`flip` in `compute()`), and under the verdict a coverage bar puts your
+pipeline, the 3X line and your own line on one scale, with the gap shaded in
+the verdict colour. Seeing your line sit past the 3X line is the insight; do
+not replace the example with one where the two agree.
 
-**Three rows, not six.** You have, you need (at your rate, or at 3X), the
-gap (with deal count when deal size is known), per seller when known. The
-full arithmetic is behind a text button. Sales-cycle days were considered
-and left out; the clock does most of that job for free.
+**Layout.** Phone: fields, then verdict. While the fields are on screen and
+the verdict is below the fold, a summary strip rides at the bottom (*3.2X
+hopium · $8M short at 25%*) so the answer is visible while typing; it hides
+once the verdict is in view or scrolled past. Desktop (≥ 880px): fields
+left, verdict sticky right, no strip. The page widens via `.wrap.wide`.
+
+**Rows.** You have; 3X says you need (and short or covered); your win rate
+says (and short or covered); the gap with deal count; per seller (or *For
+you* when sellers is 1) with deals each. The clock line fills itself from the
+date and year-end chip, with pace when closed-so-far is known.
 
 **Lead with the win rate, show 3X as the thing being killed.** Required pipeline
 is `still-to-find ÷ win rate` (× 3 if no win rate given). 3X is a 33% win rate
@@ -929,3 +935,8 @@ light, 6.2:1 dark); FAQ JSON-LD generated from the visible FAQ on every
 build; header bird 56 KB → 2 KB.
 
 **2026-09-29.0900** — Kill My Case renamed **Kill My OLR** at `/olr/`: name, title, hero, CTA, DMs, card (`card-olr.jpg`), menu, home list, footer, sitemap; FAQ adds *What is OLR?*; `/case/` redirects.
+
+**2026-09-30.0900** — Kill My Pipeline back to a live calculator: every field
+visible and prefilled, updates on input, coverage bar with the 3X line and
+your win-rate line, the flip sentence as the verdict line, a summary strip on
+phones, two columns on desktop. The stepper from 2026-09-25 is gone.
