@@ -3,7 +3,7 @@
 Everything needed to maintain, extend or rebuild this. One directory, two
 pages, one shared stylesheet and font, no build step, no server, no dependencies.
 
-**Current build: 2026-09-30.0900**
+**Current build: 2026-09-30.1100**
 
 | Path | What |
 | --- | --- |
@@ -727,6 +727,14 @@ document.
 verdict and the weakest pillar only. A tool that stores judgments about named
 people is a different product.
 
+**The bird always goes home.** Every page's header is the same: bird plus
+*Kill My Deal*, linking to `/`. The tool's own name is the small label above
+its headline (`.tool-name`). An earlier version put the tool name in the
+header and made it restart the tool, which meant tapping the logo never
+reached the front door. Restarting a tool is *Start over* and the back
+gesture; the logo is navigation. On the home page itself the logo returns to
+the intro.
+
 **Header and the kit's frame.** The *Tools* menu is a `<details>` with no JS,
 grouped by audience: *For sellers* (Deal, Territory), *For managers*
 (Pipeline, Rep, Partner, Case), *For anyone* (Brief), each with the moment
@@ -940,3 +948,5 @@ build; header bird 56 KB → 2 KB.
 visible and prefilled, updates on input, coverage bar with the 3X line and
 your win-rate line, the flip sentence as the verdict line, a summary strip on
 phones, two columns on desktop. The stepper from 2026-09-25 is gone.
+
+**2026-09-30.1100** — logo links home on every page with one wordmark, *Kill My Deal*; each tool's name moved to a label above its headline.

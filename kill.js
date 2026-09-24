@@ -243,7 +243,7 @@
     }
 
     /* Boot */
-    document.getElementById('logoHome').onclick = home;
+    const lh = document.getElementById('logoHome'); if (lh) lh.onclick = home;
     bind();
     try { history.replaceState({ kmd: ['h'] }, '', location.href); } catch {}
     if (readHash()) result(true);

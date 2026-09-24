@@ -99,10 +99,11 @@ def page(t):
 
 <div class="wrap">
   <header class="appbar">
-    <button class="logo" id="logoHome" type="button" aria-label="{t['name']}, start over"><picture><source srcset="../bird-sm-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bird-sm.png" alt="" width="38" height="32"></picture> {t['name']}</button>
+    <a class="logo" href="/" aria-label="Kill My Deal, home"><picture><source srcset="../bird-sm-dark.png" media="(prefers-color-scheme: dark)"><img class="brandmark" src="../bird-sm.png" alt="" width="38" height="32"></picture> Kill My Deal</a>
     {menu('/' + t['slug'] + '/')}
   </header>
   <div id="screen">
+    <span class="overline tool-name">{t['name']}</span>
     <h1>{t['h1']}</h1>
     <p class="dek">{t['dek']}</p>
     <button class="btn btn-primary btn-lg btn-full" id="prep" type="button">{t['cta']}</button>
